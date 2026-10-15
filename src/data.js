@@ -1,4 +1,4 @@
-export const email = 'marcusjr2204@gmail.com';
+export const email = 'marcusquerol.aluno@unipampa.edu.br';
 export const github = 'https://github.com/rlampago22';
 export const projects = [
   {
@@ -129,4 +129,18 @@ export const journey = [
     progress: graduationProgress,
     tags: ['Requisitos', 'Arquitetura', 'Testes', 'Gestão de projetos'],
   },
+];
+
+export const toolGroups = [
+  { id: 'ia', title: 'IA no fluxo de trabalho', note: 'Contexto que passa de uma ferramenta para a outra.', items: [{ name: 'Claude Code', logo: 'claude' }, { name: 'ChatGPT / Codex', logo: 'openai' }, { name: 'Gemini', logo: 'gemini' }, { name: 'Antigravity' }, { name: 'Ollama' }, { name: 'Rork' }] },
+  { id: 'linguagens', title: 'Linguagens', items: [{ name: 'Python' }, { name: 'TypeScript' }, { name: 'JavaScript' }, { name: 'Kotlin' }, { name: 'Java' }, { name: 'SQL' }] },
+  { id: 'apps', title: 'Apps & web', items: [{ name: 'React' }, { name: 'React Native' }, { name: 'Expo' }, { name: 'Vite' }, { name: 'Streamlit' }, { name: 'GSAP & Motion' }] },
+  { id: 'qualidade', title: 'Dados, testes & entrega', items: [{ name: 'SQLite' }, { name: 'pytest' }, { name: 'Playwright' }, { name: 'Git & GitHub' }, { name: 'GitHub Pages' }] },
+  { id: 'ambiente', title: 'Ambiente', items: [{ name: 'VS Code' }, { name: 'IntelliJ IDEA' }, { name: 'Warp' }, { name: 'PowerShell' }] },
+];
+
+export const languages = [
+  { name: 'Português', level: 'Nativo', value: 5 },
+  { name: 'Inglês', level: 'Intermediário', value: 3 },
+  { name: 'Espanhol', level: 'Básico', value: 2 },
 ];

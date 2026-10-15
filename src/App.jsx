@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { AnimatePresence, MotionConfig } from 'motion/react';
+import { AnimatePresence, MotionConfig, motion } from 'motion/react';
 import { ArrowUpRight, ArrowDown, ArrowRight, Github, Instagram, Mail, MessageCircle, Copy, Check, X, Menu, Pause, Play, MapPin, Terminal, Code2, ExternalLink, Sparkles, Plus, Minus } from 'lucide-react';
 import DecryptedText from './components/DecryptedText';
 import Folder from './components/Folder';
@@ -9,6 +9,7 @@ import SubchefeDemo from './components/SubchefeDemo';
 import Interests from './components/Interests';
 import AboutIntro from './components/AboutIntro';
 import Journey from './components/Journey';
+import Toolbox from './components/Toolbox';
 import Intro, { shouldShowIntro } from './components/Intro';
 import { projects, papers, email, github, instagram, orcid, lattes } from './data';
 
@@ -93,6 +94,22 @@ function Playground({ paused }) {
       <div className="code-status"><span><span className="tiny-dot" /> {handoffs ? 'Contexto transferido na demonstração' : 'Contexto pronto para continuar'}</span><span>handoff.md <Check size={13} /></span></div>
     </div>
   </section>;
+}
+
+// Starts collapsed so visitors choose whether to open the full list of publications.
+function Publications() {
+  const [open, setOpen] = useState(false);
+  const venues = [...new Set(papers.map(paper => paper.label.split(' · ')[0]))];
+  return <div className="publications">
+    <button className="publications-toggle" aria-expanded={open} aria-controls="paper-list" onClick={() => setOpen(value => !value)}>
+      <span className="publications-count"><b>{String(papers.length).padStart(2, '0')}</b> publicações</span>
+      <span className="publications-venues">{venues.map(venue => <i key={venue}>{venue}</i>)}</span>
+      <span className="publications-action">{open ? 'Recolher' : 'Ver todas'} {open ? <Minus size={16} /> : <Plus size={16} />}</span>
+    </button>
+    <AnimatePresence initial={false}>{open && <motion.div id="paper-list" className="paper-list" initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.45, ease: [0.23, 1, 0.32, 1] }} style={{ overflow: 'hidden' }}>
+      {papers.map(paper => <article className="paper" key={paper.title}><div className="paper-meta"><span>{paper.label}</span><small>{paper.role}</small></div><div className="paper-title"><h3>{paper.url ? <a href={paper.url} target="_blank" rel="noreferrer">{paper.title}</a> : paper.title}</h3><span>{paper.topic}</span></div>{paper.url ? <a className="paper-link" href={paper.url} target="_blank" rel="noreferrer" aria-label={`Ler artigo: ${paper.title}`}><ArrowUpRight size={23} /></a> : <span className="paper-publisher">{paper.kind || 'Resumo'}</span>}</article>)}
+    </motion.div>}</AnimatePresence>
+  </div>;
 }
 
 function MiniTerminal() {
@@ -187,10 +204,11 @@ export default function App() {
       <Playground paused={paused} />
 
       <Journey />
+      <Toolbox asset={asset} />
 
       <Interests asset={asset} paused={paused} />
 
-      <section id="pesquisa" className="research-section section-wrap" aria-labelledby="research-title"><div className="section-heading"><div><SectionLabel>CONHECIMENTO QUE CIRCULA</SectionLabel><h2 id="research-title">Da pergunta à publicação.</h2></div><p>Pesquisa em software, dados<br /> e cuidado com as pessoas.</p></div><div className="paper-list">{papers.map(paper => <article className="paper" key={paper.title}><div className="paper-meta"><span>{paper.label}</span><small>{paper.role}</small></div><div className="paper-title"><h3>{paper.url ? <a href={paper.url} target="_blank" rel="noreferrer">{paper.title}</a> : paper.title}</h3><span>{paper.topic}</span></div>{paper.url ? <a className="paper-link" href={paper.url} target="_blank" rel="noreferrer" aria-label={`Ler artigo: ${paper.title}`}><ArrowUpRight size={23} /></a> : <span className="paper-publisher">{paper.kind || 'Resumo'}</span>}</article>)}</div><div className="talk-note"><Sparkles size={18} /><p>Também compartilho ideias em palestras, como <strong>“A Inteligência Artificial no Meio Acadêmico”</strong>, na UNIPAMPA.</p></div><MiniTerminal /></section>
+      <section id="pesquisa" className="research-section section-wrap" aria-labelledby="research-title"><div className="section-heading"><div><SectionLabel>CONHECIMENTO QUE CIRCULA</SectionLabel><h2 id="research-title">Da pergunta à publicação.</h2></div><p>Pesquisa em software, dados<br /> e cuidado com as pessoas.</p></div><Publications /><div className="talk-note"><Sparkles size={18} /><p>Também compartilho ideias em palestras, como <strong>“A Inteligência Artificial no Meio Acadêmico”</strong>, na UNIPAMPA.</p></div><MiniTerminal /></section>
 
       <section id="contato" className="contact-section section-wrap" aria-labelledby="contact-title"><div className="contact-copy"><SectionLabel>UMA CONVERSA PODE SER O COMEÇO</SectionLabel><h2 id="contact-title">Tem uma ideia?<br /> Vamos <em>construir.</em><ArrowUpRight /></h2><p>Projetos, oportunidades, pesquisa ou uma boa troca sobre tecnologia. Meu contato está logo aqui.</p><div className="contact-links"><a href={`mailto:${email}`}>{email} <ArrowUpRight size={18} /></a><button className="icon-button" onClick={copyEmail} aria-label="Copiar e-mail">{copyStatus === 'E-mail copiado!' ? <Check size={17} /> : <Copy size={17} />}</button></div><span className="copy-status" role="status">{copyStatus}</span><div className="contact-socials"><a className="text-link" href={github} target="_blank" rel="noreferrer"><Github size={17} /> @rlampago22 <ArrowUpRight size={15} /></a><a className="text-link" href={instagram} target="_blank" rel="noreferrer"><Instagram size={17} /> @marcusqueroll <ArrowUpRight size={15} /></a><a className="text-link" href={lattes} target="_blank" rel="noreferrer">Currículo Lattes <ArrowUpRight size={15} /></a><a className="text-link" href={orcid} target="_blank" rel="noreferrer">ORCID <ArrowUpRight size={15} /></a></div></div><form className="contact-form" onSubmit={event => { event.preventDefault(); const text = encodeURIComponent(`Olá, Marcus! Sou ${contactName.trim()}. ${contactMessage.trim()}`); window.open(`https://wa.me/5553999357192?text=${text}`, '_blank', 'noopener,noreferrer'); }}><label htmlFor="contact-name">Como posso te chamar?</label><input id="contact-name" name="name" autoComplete="name" required maxLength={100} placeholder="Seu nome" value={contactName} onChange={event => setContactName(event.target.value)} /><label htmlFor="contact-message">O que vamos tirar do papel?</label><textarea id="contact-message" name="message" required rows={3} maxLength={2000} placeholder="Me conte um pouco da sua ideia…" value={contactMessage} onChange={event => setContactMessage(event.target.value)} /><button className="button primary" type="submit">Continuar no WhatsApp <ArrowUpRight size={17} /></button><span>Você revisa a mensagem antes de enviar.</span></form></section>
     </main>
