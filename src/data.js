@@ -151,6 +151,5 @@ export const languages = [
 // Demonstrações de landing pages feitas com IA. Os prints ficam em public/assets/landings/.
 export const landings = [
   { id: 'jazean', name: 'JAZEAN', kind: 'Café especial · loja', domain: 'jazean · estudo', description: 'Landing e loja de café de origem única: xícara 3D que gira ao arrastar, parallax, seções de terroir, torra e preparo, carrinho e versão em português.', stack: ['React', 'TypeScript', 'Tailwind', 'Three.js'] },
-  { id: 'vitta', name: 'Vitta Saúde', kind: 'Centro médico · Alegrete', domain: 'vitta-saude · estudo', description: 'Centro médico com hologramas 3D, busca por sintomas, verificador de convênios locais e agendamento em quatro etapas que segue para o WhatsApp.', stack: ['HTML', 'Tailwind', 'JavaScript', 'Three.js'] },
   { id: 'clinica', name: 'Instituto Alegrete', kind: 'Clínica · Alegrete', domain: 'instituto-alegrete · estudo', description: 'Versão sóbria e editorial para uma clínica, com especialidades, inovação, assistente virtual e agendamento.', stack: ['HTML', 'Tailwind', 'JavaScript'] },
 ];

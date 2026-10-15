@@ -8,8 +8,8 @@
 
 .landings-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 34px 26px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 34px 30px;
 }
 
 .landing-card {
@@ -78,7 +78,7 @@
 }
 
 .landing-card p {
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.8;
   color: var(--muted);
 }
@@ -86,12 +86,6 @@
 .landing-card .tags {
   margin-top: auto;
   padding-top: 14px;
-}
-
-@media (max-width: 1000px) {
-  .landings-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }
 
 @media (max-width: 600px) {
