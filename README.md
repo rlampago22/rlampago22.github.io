@@ -12,13 +12,14 @@ Versão React do portfólio fornecido, com composição inspirada no hero 3D do 
 
 ## Conteúdo e edição
 
-- `src/data.js`: cinco projetos, tecnologias, descrições, artigos e contatos.
+- `src/data.js`: seis projetos (incluindo o RPC Peixes, software científico orientado pelo Prof. Marcus Vinicius Morini Querol), tecnologias, descrições, artigos e contatos.
 - `src/App.jsx`: hero, fluxo demonstrativo de IA, apresentação, trajetória, terminal e contato.
 - `src/styles.css`: identidade visual e responsividade.
 - `src/components/`: componentes React Bits adaptados dos prompts fornecidos, com teclado e pausa controlada pelo site.
 - `public/assets/`: retrato otimizado em WebP e ícones SVG.
 - `src/components/InteractiveAvatar.*`: inclinação com suavização, reação ao clique/toque e pausa.
 - `src/components/KineticTitle.*`: brilho e textura de código recortados dentro das letras.
+- `src/components/Intro.*` e `src/components/PromptBar.*`: abertura com a PromptBar do React Bits, que digita “ir para o portfólio do Marcus”, envia e abre o site. Aparece uma vez por visita (sessionStorage) e pode ser pulada pelo botão, por Esc ou por um toque. A PromptBar ganhou só a opção `autoType` para a digitação automática.
 - `src/components/AboutIntro.*`: “Sobre mim” logo após o hero, com texto que se acende palavra por palavra na rolagem e a ficha `sobre-mim.md`. Texto e ficha ficam em `src/data.js` (`aboutText`, `aboutFacts`, `graduationProgress`).
 - `src/components/Journey.*`: trajetória com contexto e atuação no PET-Saúde e-Cidadania, no Apoio à Gestão Acadêmica e na graduação (`journey` em `src/data.js`).
 - `src/components/Interests.*`: seção “Fora do código” (psicologia, pesca, esportes e música), cada uma com um vídeo do avatar em `public/assets/hobbies/` (MP4 720p sem áudio + JPG do primeiro quadro). A música também mostra o player compacto do Spotify com a playlist Vibez diferente.
@@ -41,7 +42,7 @@ Foram mantidos os contatos, repositórios, formação, vínculos e publicações
 ## Próximos ajustes sugeridos
 
 1. Adicionar o link real do LinkedIn.
-2. Adicionar o link do Currículo Lattes (o ORCID já está no contato).
+2. Confirmar a coautoria no resumo sobre testagem rápida de ISTs da II Mostra PET-Saúde Digital antes de incluí-lo na Pesquisa.
 3. Adicionar capturas reais, demonstrações e resultados verificáveis nas pastas de projetos; completar o DOI/link do capítulo Springer.
 
 ## Referências e créditos
@@ -49,7 +50,7 @@ Foram mantidos os contatos, repositórios, formação, vínculos e publicações
 - Referência de composição: [MotionSites — 3D Portfolio](https://motionsites.ai/?prompt=3d-jack-portfolio-hero). Composição própria; nenhum código premium foi copiado.
 - Animações: [React Bits](https://reactbits.dev/) — código dos anexos fornecidos; licença preservada em `licenses/React-Bits.txt` (MIT + Commons Clause).
 - Logos: [Lobe Icons](https://github.com/lobehub/lobe-icons) — licença preservada em `licenses/Lobe-Icons.txt` (MIT).
-- Ícones de interface: Lucide. Fontes: Space Grotesk, Manrope e IBM Plex Mono, via Google Fonts.
+- Ícones de interface: Lucide; Hugeicons (pacote gratuito) na PromptBar. Fontes: Space Grotesk, Manrope e IBM Plex Mono, via Google Fonts.
 - Retrato e conteúdo inicial: arquivos fornecidos pelo usuário. Os arquivos originais em Downloads permanecem intactos.
 
 ## Verificação

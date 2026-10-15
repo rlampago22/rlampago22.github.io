@@ -8,7 +8,7 @@ const cssPath = html.match(/<link[^>]+rel="stylesheet"[^>]+href="([^"]+)"[^>]*>/
 if (!scriptPath || !cssPath) throw new Error('Build Vite não encontrado. Execute npm run build primeiro.');
 const js = await readFile(path.join(root, 'dist', scriptPath), 'utf8');
 const css = await readFile(path.join(root, 'dist', cssPath), 'utf8');
-const assetNames = ['marcus-3d.webp', 'openai.svg', 'claude.svg', 'gemini.svg', 'favicon.svg', ...['psicologia', 'pesca', 'esportes', 'musica'].flatMap(id => [`hobbies/${id}.mp4`, `hobbies/${id}-poster.jpg`])];
+const assetNames = ['marcus-3d.webp', 'openai.svg', 'claude.svg', 'gemini.svg', 'favicon.svg', 'projects/rpc-peixes-grafico.webp', ...['psicologia', 'pesca', 'esportes', 'musica'].flatMap(id => [`hobbies/${id}.mp4`, `hobbies/${id}-poster.jpg`])];
 const mimeTypes = { svg: 'image/svg+xml', webp: 'image/webp', jpg: 'image/jpeg', mp4: 'video/mp4' };
 const assets = Object.fromEntries(await Promise.all(assetNames.map(async name => {
   const content = await readFile(path.join(root, 'public/assets', name));

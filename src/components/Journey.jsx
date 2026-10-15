@@ -22,7 +22,8 @@ export default function Journey() {
         <h3>{item.title}</h3>
         <span className="journey-card__org">{item.org}</span>
         <div className="journey-card__blocks">
-          <Block label="O contexto">{item.context}</Block>
+          {item.context && <Block label="O contexto">{item.context}</Block>}
+          {item.course && <Block label="O curso">{item.course}</Block>}
           {item.group && <Block label="O grupo">{item.group}</Block>}
           {item.work && <Block label="O que eu faço">{item.work}</Block>}
         </div>

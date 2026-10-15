@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { MotionConfig } from 'motion/react';
+import { AnimatePresence, MotionConfig } from 'motion/react';
 import { ArrowUpRight, ArrowDown, ArrowRight, Github, Instagram, Mail, Copy, Check, X, Menu, Pause, Play, MapPin, Terminal, Code2, ExternalLink, Sparkles, Plus, Minus } from 'lucide-react';
 import DecryptedText from './components/DecryptedText';
 import Folder from './components/Folder';
@@ -9,7 +9,8 @@ import SubchefeDemo from './components/SubchefeDemo';
 import Interests from './components/Interests';
 import AboutIntro from './components/AboutIntro';
 import Journey from './components/Journey';
-import { projects, papers, email, github, instagram, orcid } from './data';
+import Intro, { shouldShowIntro } from './components/Intro';
+import { projects, papers, email, github, instagram, orcid, lattes } from './data';
 
 const asset = (name) => globalThis.__PORTFOLIO_ASSETS__?.[name] || `${import.meta.env.BASE_URL}assets/${name}`;
 const models = [
@@ -94,10 +95,10 @@ function MiniTerminal() {
     help: 'Comandos: whoami · projetos · pesquisa · ia · stack · contato · clear',
     whoami: 'Marcus Querol Jr. · 20 anos, natural de Uruguaiana. Engenharia de Software na UNIPAMPA, Alegrete/RS. IA, psicologia, Saúde Digital e ferramentas para agentes de IA.',
     projetos: projects.map(project => `${project.title} → ${github}/${project.id}`).join('\n'),
-    pesquisa: 'App SAE (SBSC 2026) · Sistemas de recomendação (ERBD 2026) · Engenharia de Software e Saúde Digital (Springer). Links na seção Pesquisa.',
+    pesquisa: 'App SAE (SBSC 2026) · Recomendação em tempo real (ERBD 2026) · Engenharia de Software e Saúde Digital para pessoas idosas (Springer) · RPC Peixes e VER-SUS (SIEPE 2026) · relatos na II Mostra PET-Saúde Digital. Lista completa na seção Pesquisa.',
     ia: 'Orquestração entre Codex, Claude, Gemini e Antigravity. Contexto preservado, decisões registradas e continuidade entre ferramentas.',
     stack: 'Python · TypeScript · JavaScript · Kotlin · SQL · Java\nReact Native · Expo · Streamlit · Playwright · pytest · Git',
-    contato: `${email}\n${github}\nWhatsApp: (53) 99904-9927`,
+    contato: `${email}\n${github}\nInstagram: @marcusqueroll\nWhatsApp: (53) 99935-7192`,
   };
   function run(value) {
     const command = value.trim().toLowerCase();
@@ -115,6 +116,7 @@ function MiniTerminal() {
 export default function App() {
   const compactFolders = useMediaQuery('(max-width: 600px)');
   const [motionPaused, setMotionPaused] = useState(false);
+  const [introActive, setIntroActive] = useState(shouldShowIntro);
   const [mobileMenu, setMobileMenu] = useState(false);
   const [filter, setFilter] = useState('Todos');
   const [selectedProject, setSelectedProject] = useState(null);
@@ -132,7 +134,7 @@ export default function App() {
     catch { setCopyStatus(`Copie o endereço: ${email}`); }
     clearTimeout(copyTimeout.current); copyTimeout.current = setTimeout(() => setCopyStatus(''), 5000);
   }
-  return <MotionConfig reducedMotion={paused ? 'always' : 'never'}><div className="site-shell">
+  return <MotionConfig reducedMotion={paused ? 'always' : 'never'}><AnimatePresence>{introActive && <Intro key="intro" onDone={() => setIntroActive(false)} />}</AnimatePresence><div className="site-shell">
     <a className="skip-link" href="#conteudo">Pular para o conteúdo</a>
     <header className="site-header">
       <a href="#inicio" className="brand" aria-label="Marcus Querol, início"><span className="brand-symbol">m.</span><span>marcus querol<span className="brand-dot">.</span></span></a>
@@ -148,7 +150,7 @@ export default function App() {
         <h1 id="hero-title"><KineticTitle text="Marcus Querol" paused={paused} /></h1>
         <div className="hero-scene">
           <div className="hero-description"><div className="small-rule" /><p>Entre código,<br /> pesquisa e <em>possibilidades.</em></p><span>Engenharia de Software<br /> & orquestração de IA</span></div>
-          <InteractiveAvatar src={asset('marcus-3d.webp')} paused={paused} onRequestMotion={() => setMotionPaused(false)} alt="Retrato 3D de Marcus Querol usando uma boina bordô" />
+          <InteractiveAvatar src={asset('marcus-3d.webp')} paused={paused || introActive} onRequestMotion={() => setMotionPaused(false)} alt="Retrato 3D de Marcus Querol usando uma boina bordô" />
           <div className="orbit orbit-openai" aria-hidden="true"><Logo name="openai" /><span>ChatGPT</span></div>
           <div className="orbit orbit-claude" aria-hidden="true"><Logo name="claude" /><span>Claude</span></div>
           <div className="orbit orbit-gemini" aria-hidden="true"><Logo name="gemini" /><span>Gemini</span></div>
@@ -164,8 +166,8 @@ export default function App() {
       <section id="projetos" className="projects-section section-wrap" aria-labelledby="projects-title">
         <div className="section-heading"><div><SectionLabel>DO CONTEXTO À CONSTRUÇÃO</SectionLabel><h2 id="projects-title"><DecryptedText text="Ideias fora da pasta." animateOn="view" speed={35} maxIterations={12} pauseMotion={paused} encryptedClassName="scrambled" /></h2></div><p>Ferramentas que resolvem problemas reais.<br /> <span>Abra uma pasta e explore o que tem dentro.</span></p></div>
         <div className="projects-toolbar"><div className="filter-tabs" aria-label="Filtrar projetos">{['Todos', 'Agentes de IA', 'Aplicações'].map(item => <button aria-pressed={filter === item} className={filter === item ? 'active' : ''} key={item} onClick={() => setFilter(item)}>{item}{item === 'Todos' && <span>{String(projects.length).padStart(2, '0')}</span>}</button>)}</div><span className="folder-hint">Um clique abre novas possibilidades <ArrowDown size={14} /></span></div>
-        <div className="project-grid">{projects.filter(project => filter === 'Todos' || project.category === filter).map(project => <article className={`project-card${project.featured ? ' project-card--featured' : ''}`} key={project.id}>
-          <div className="project-folder-stage" style={{ '--folder-tint': project.color }}><Folder layout={compactFolders ? 'stack' : 'spread'} label={project.label} color={project.color} theme="light" size={0.94} items={[{ title: project.flow[0], description: 'Ponto de partida' }, { title: project.flow[1], description: project.short }, { title: project.flow[2], description: project.stack.join(' · ') }]} draggable={false} zoomOnClick={true} intro={false} pauseMotion={paused} /></div>
+        <div className="project-grid">{projects.filter(project => filter === 'Todos' || project.category === filter).map(project => <article className={`project-card${project.featured ? ' project-card--featured' : ''}${project.wide ? ' project-card--wide' : ''}`} key={project.id}>
+          {project.image ? <figure className="project-figure"><img src={asset(project.image)} alt={project.imageAlt} width="1400" height="862" loading="lazy" /><figcaption>{project.highlights.map(item => <span key={item}>{item}</span>)}</figcaption></figure> : <div className="project-folder-stage" style={{ '--folder-tint': project.color }}><Folder layout={compactFolders ? 'stack' : 'spread'} label={project.label} color={project.color} theme="light" size={0.94} items={[{ title: project.flow[0], description: 'Ponto de partida' }, { title: project.flow[1], description: project.short }, { title: project.flow[2], description: project.stack.join(' · ') }]} draggable={false} zoomOnClick={true} intro={false} pauseMotion={paused} /></div>}
           <div className="project-category">{project.category}<span className="project-dot" /></div><h3>{project.title}</h3><p>{project.description}</p><div className="tags">{project.stack.slice(0, 2).map(tag => <span key={tag}>{tag}</span>)}</div><button className="project-details" onClick={() => setSelectedProject(project)} aria-label={`Conhecer projeto ${project.title}`}>Conhecer projeto <ArrowUpRight size={17} /></button>
         </article>)}</div>
         <a href={`${github}?tab=repositories`} target="_blank" rel="noreferrer" className="all-projects"><Github size={17} /> Outros experimentos moram no GitHub <ArrowUpRight size={15} /></a>
@@ -178,9 +180,9 @@ export default function App() {
 
       <Interests asset={asset} paused={paused} />
 
-      <section id="pesquisa" className="research-section section-wrap" aria-labelledby="research-title"><div className="section-heading"><div><SectionLabel>CONHECIMENTO QUE CIRCULA</SectionLabel><h2 id="research-title">Da pergunta à publicação.</h2></div><p>Pesquisa em software, dados<br /> e cuidado com as pessoas.</p></div><div className="paper-list">{papers.map(paper => <article className="paper" key={paper.title}><div className="paper-meta"><span>{paper.label}</span><small>{paper.role}</small></div><div className="paper-title"><h3>{paper.url ? <a href={paper.url} target="_blank" rel="noreferrer">{paper.title}</a> : paper.title}</h3><span>{paper.topic}</span></div>{paper.url ? <a className="paper-link" href={paper.url} target="_blank" rel="noreferrer" aria-label={`Ler artigo: ${paper.title}`}><ArrowUpRight size={23} /></a> : <span className="paper-publisher">Capítulo</span>}</article>)}</div><div className="talk-note"><Sparkles size={18} /><p>Também compartilho ideias em palestras, como <strong>“A Inteligência Artificial no Meio Acadêmico”</strong>, na UNIPAMPA.</p></div><MiniTerminal /></section>
+      <section id="pesquisa" className="research-section section-wrap" aria-labelledby="research-title"><div className="section-heading"><div><SectionLabel>CONHECIMENTO QUE CIRCULA</SectionLabel><h2 id="research-title">Da pergunta à publicação.</h2></div><p>Pesquisa em software, dados<br /> e cuidado com as pessoas.</p></div><div className="paper-list">{papers.map(paper => <article className="paper" key={paper.title}><div className="paper-meta"><span>{paper.label}</span><small>{paper.role}</small></div><div className="paper-title"><h3>{paper.url ? <a href={paper.url} target="_blank" rel="noreferrer">{paper.title}</a> : paper.title}</h3><span>{paper.topic}</span></div>{paper.url ? <a className="paper-link" href={paper.url} target="_blank" rel="noreferrer" aria-label={`Ler artigo: ${paper.title}`}><ArrowUpRight size={23} /></a> : <span className="paper-publisher">{paper.kind || 'Resumo'}</span>}</article>)}</div><div className="talk-note"><Sparkles size={18} /><p>Também compartilho ideias em palestras, como <strong>“A Inteligência Artificial no Meio Acadêmico”</strong>, na UNIPAMPA.</p></div><MiniTerminal /></section>
 
-      <section id="contato" className="contact-section section-wrap" aria-labelledby="contact-title"><div className="contact-copy"><SectionLabel>UMA CONVERSA PODE SER O COMEÇO</SectionLabel><h2 id="contact-title">Tem uma ideia?<br /> Vamos <em>construir.</em><ArrowUpRight /></h2><p>Projetos, oportunidades, pesquisa ou uma boa troca sobre tecnologia. Meu contato está logo aqui.</p><div className="contact-links"><a href={`mailto:${email}`}>{email} <ArrowUpRight size={18} /></a><button className="icon-button" onClick={copyEmail} aria-label="Copiar e-mail">{copyStatus === 'E-mail copiado!' ? <Check size={17} /> : <Copy size={17} />}</button></div><span className="copy-status" role="status">{copyStatus}</span><div className="contact-socials"><a className="text-link" href={github} target="_blank" rel="noreferrer"><Github size={17} /> @rlampago22 <ArrowUpRight size={15} /></a><a className="text-link" href={instagram} target="_blank" rel="noreferrer"><Instagram size={17} /> @marcusqueroll <ArrowUpRight size={15} /></a><a className="text-link" href={orcid} target="_blank" rel="noreferrer">ORCID <ArrowUpRight size={15} /></a></div></div><form className="contact-form" onSubmit={event => { event.preventDefault(); const text = encodeURIComponent(`Olá, Marcus! Sou ${contactName.trim()}. ${contactMessage.trim()}`); window.open(`https://wa.me/5553999049927?text=${text}`, '_blank', 'noopener,noreferrer'); }}><label htmlFor="contact-name">Como posso te chamar?</label><input id="contact-name" name="name" autoComplete="name" required maxLength={100} placeholder="Seu nome" value={contactName} onChange={event => setContactName(event.target.value)} /><label htmlFor="contact-message">O que vamos tirar do papel?</label><textarea id="contact-message" name="message" required rows={3} maxLength={2000} placeholder="Me conte um pouco da sua ideia…" value={contactMessage} onChange={event => setContactMessage(event.target.value)} /><button className="button primary" type="submit">Continuar no WhatsApp <ArrowUpRight size={17} /></button><span>Você revisa a mensagem antes de enviar.</span></form></section>
+      <section id="contato" className="contact-section section-wrap" aria-labelledby="contact-title"><div className="contact-copy"><SectionLabel>UMA CONVERSA PODE SER O COMEÇO</SectionLabel><h2 id="contact-title">Tem uma ideia?<br /> Vamos <em>construir.</em><ArrowUpRight /></h2><p>Projetos, oportunidades, pesquisa ou uma boa troca sobre tecnologia. Meu contato está logo aqui.</p><div className="contact-links"><a href={`mailto:${email}`}>{email} <ArrowUpRight size={18} /></a><button className="icon-button" onClick={copyEmail} aria-label="Copiar e-mail">{copyStatus === 'E-mail copiado!' ? <Check size={17} /> : <Copy size={17} />}</button></div><span className="copy-status" role="status">{copyStatus}</span><div className="contact-socials"><a className="text-link" href={github} target="_blank" rel="noreferrer"><Github size={17} /> @rlampago22 <ArrowUpRight size={15} /></a><a className="text-link" href={instagram} target="_blank" rel="noreferrer"><Instagram size={17} /> @marcusqueroll <ArrowUpRight size={15} /></a><a className="text-link" href={lattes} target="_blank" rel="noreferrer">Currículo Lattes <ArrowUpRight size={15} /></a><a className="text-link" href={orcid} target="_blank" rel="noreferrer">ORCID <ArrowUpRight size={15} /></a></div></div><form className="contact-form" onSubmit={event => { event.preventDefault(); const text = encodeURIComponent(`Olá, Marcus! Sou ${contactName.trim()}. ${contactMessage.trim()}`); window.open(`https://wa.me/5553999357192?text=${text}`, '_blank', 'noopener,noreferrer'); }}><label htmlFor="contact-name">Como posso te chamar?</label><input id="contact-name" name="name" autoComplete="name" required maxLength={100} placeholder="Seu nome" value={contactName} onChange={event => setContactName(event.target.value)} /><label htmlFor="contact-message">O que vamos tirar do papel?</label><textarea id="contact-message" name="message" required rows={3} maxLength={2000} placeholder="Me conte um pouco da sua ideia…" value={contactMessage} onChange={event => setContactMessage(event.target.value)} /><button className="button primary" type="submit">Continuar no WhatsApp <ArrowUpRight size={17} /></button><span>Você revisa a mensagem antes de enviar.</span></form></section>
     </main>
     <footer className="site-footer"><a className="brand" href="#inicio"><span className="brand-symbol">m.</span><span>Ideias em movimento.</span></a><span>© {new Date().getFullYear()} Marcus Querol</span><a href="#inicio">De volta ao topo <ArrowUpRight size={15} /></a></footer>
     <ProjectDialog project={selectedProject} onClose={() => setSelectedProject(null)} />

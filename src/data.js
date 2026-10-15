@@ -37,12 +37,27 @@ export const projects = [
     detail: 'Sistema para a rotina financeira de um condomínio: rateio, pagamentos, acompanhamento de inadimplência, fluxo de caixa e exportação de relatórios em PDF e CSV.',
     stack: ['Python', 'Streamlit'], flow: ['Lançamentos', 'Fluxo de caixa', 'Relatórios'],
   },
+  {
+    id: 'rpc-peixes', title: 'RPC Peixes', short: 'Do dado à curva.',
+    category: 'Aplicações', color: '#5f8aa3', label: 'SOFTWARE CIENTÍFICO',
+    description: 'Análise da relação peso–comprimento de peixes, das medidas de campo à curva ajustada, em um único fluxo que roda no computador do pesquisador. O gráfico ao lado é a análise real do grumatã da Barragem Sanchurí, apresentada no 18º SIEPE.',
+    detail: 'Aplicação local para a biologia pesqueira organizar, validar e analisar dados biométricos. Recebe comprimento total e padrão, sexo e peso por digitação, colagem ou planilhas (XLSX, XLS e CSV), aponta registros inconsistentes e compara os modelos linear, potencial (W = a·L^b) e exponencial com R, R² e intervalos de confiança. Um clique no ponto do gráfico localiza o exemplar para corrigir ou excluir. Os projetos ficam em SQLite no próprio computador e os resultados saem em Excel, CSV, PNG, SVG ou PDF. Desenvolvido com programação assistida por IA (Codex), com requisitos, método e interpretação sob decisão humana, e orientação do Prof. Marcus Vinicius Morini Querol (NUPILABRU/UNIPAMPA). O RPC Peixes já analisou os dados do grumatã (Prochilodus lineatus) da Barragem Sanchurí, e os dois trabalhos estão no 18º SIEPE.',
+    stack: ['Python', 'Streamlit', 'SQLite', 'SciPy'], flow: ['Biometria', 'Validação', 'Curva ajustada'],
+    highlights: ['3 modelos de regressão', '25 testes automatizados', 'Local e offline'],
+    image: 'projects/rpc-peixes-grafico.webp', imageAlt: 'Gráfico do RPC Peixes: relação peso–comprimento de 10 grumatãs da Barragem Sanchurí, com curva potencial ajustada e intervalo de confiança de 95%',
+    repository: null, wide: true,
+  },
 ];
 
 export const papers = [
-  { label: 'SBSC · 2026', role: 'Primeiro autor', title: 'App SAE: Uma Tecnologia Social Voltada à Adesão Medicamentosa no Serviço de Atenção Especializada', url: 'https://sol.sbc.org.br/index.php/sbsc/article/view/42950', topic: 'Saúde Digital' },
-  { label: 'ERBD · 2026', role: 'Coautor', title: 'Sistema de Recomendação em Tempo Real via Processamento de Fluxo sobre Bancos de Dados Distribuídos', url: 'https://sol.sbc.org.br/index.php/erbd/article/view/43874', topic: 'Dados & sistemas' },
-  { label: 'SPRINGER', role: 'Coautor', title: 'Contributions of Software Engineering to Digital Health in Brazil for Older Adults', topic: 'Saúde Digital' },
+  { label: 'SBSC · 2026', role: 'Primeiro autor', title: 'App SAE: Uma Tecnologia Social Voltada à Adesão Medicamentosa no Serviço de Atenção Especializada', url: 'https://sol.sbc.org.br/index.php/sbsc/article/view/42950', topic: 'Saúde Digital · artigo completo' },
+  { label: 'ERBD · 2026', role: 'Coautor', title: 'Sistema de Recomendação em Tempo Real via Processamento de Fluxo sobre Bancos de Dados Distribuídos', url: 'https://sol.sbc.org.br/index.php/erbd/article/view/43874', topic: 'Dados & sistemas · artigo completo' },
+  { label: 'SPRINGER · 2026', role: 'Coautor', title: 'Contributions of Software Engineering to Digital Health in Brazil for Older Adults', url: 'https://doi.org/10.1007/978-3-032-23747-7', topic: 'Saúde Digital · capítulo em Gerontechnology VII (IWoG 2025, Évora)' },
+  { label: 'SIEPE · 2026', role: 'Primeiro autor', title: 'Desenvolvimento de Software para Análise da Relação Peso-Comprimento em Peixes', topic: 'Software científico · resumo (RPC Peixes)' },
+  { label: 'SIEPE · 2026', role: 'Coautor', title: 'Relação Peso-Comprimento de Prochilodus lineatus na Barragem Sanchurí, Bioma Pampa', topic: 'Ictiologia · pôster com análise no RPC Peixes', kind: 'Pôster' },
+  { label: 'SIEPE · 2026', role: 'Primeiro autor', title: 'Dimensão Cultural no Cuidado em Saúde: Relato de Experiência no VER-SUS', url: 'https://periodicos.unipampa.edu.br/index.php/SIEPE/article/view/123838', topic: 'Saúde coletiva · relato de experiência' },
+  { label: 'PET-SAÚDE DIGITAL · 2026', role: 'Primeiro autor', title: 'Território, Cuidado e Tecnologia: Relato de Experiência no VER-SUS', url: 'https://repositorio.unipampa.edu.br/server/api/core/bitstreams/f0478db0-bb3d-4a5a-97a0-6845b65188e6/content', topic: 'II Mostra PET-Saúde Digital Pampa Conectado' },
+  { label: 'PET-SAÚDE DIGITAL · 2026', role: 'Coautor', title: 'Engenharia de Software Integrada à Saúde Digital no SUS: Relato de Experiência no PET-Saúde e-Cidadania', url: 'https://repositorio.unipampa.edu.br/server/api/core/bitstreams/f0478db0-bb3d-4a5a-97a0-6845b65188e6/content', topic: 'II Mostra PET-Saúde Digital Pampa Conectado' },
 ];
 
 export const spotifyProfile = 'https://open.spotify.com/user/31nehsiaqpbxu5wkyedxfudnewum';
@@ -79,6 +94,7 @@ export const interests = [
 ];
 
 export const orcid = 'https://orcid.org/0009-0005-9192-0121';
+export const lattes = 'https://lattes.cnpq.br/5322341445729243';
 export const graduationProgress = 50;
 
 export const aboutText = 'Sou o Marcus Querol, natural de Uruguaiana, tenho 20 anos e estou na metade da graduação em Engenharia de Software na UNIPAMPA. Me interesso por inteligência artificial e por psicologia, e busco unir as duas: tecnologia que ajuda a criar hábitos melhores e que nos deixa mais conscientes do uso que fazemos dela.';
@@ -109,8 +125,8 @@ export const journey = [
   {
     id: 'graduacao', date: '2025 — 2028 · PREVISÃO', role: 'Graduação',
     title: 'Engenharia de Software', org: 'Universidade Federal do Pampa · Campus Alegrete',
-    context: 'Formação conectada à pesquisa e à construção de software aplicado, com publicações no SBSC e no ERBD 2026.',
+    course: 'Bacharelado que forma para todo o ciclo de vida do software: requisitos, arquitetura, construção, testes, qualidade e gestão de projetos. Estou na metade do curso e levo para a sala o que aprendo na pesquisa e nas bolsas, e vice-versa.',
     progress: graduationProgress,
-    tags: ['Pesquisa', 'Saúde digital', 'Dados'],
+    tags: ['Requisitos', 'Arquitetura', 'Testes', 'Gestão de projetos'],
   },
 ];

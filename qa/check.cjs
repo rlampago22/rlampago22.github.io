@@ -43,7 +43,7 @@ async page => {
   await page.evaluate(() => { window.__openedURL = ''; window.open = url => { window.__openedURL = url; return null; }; });
   await page.getByRole('button', { name: 'Continuar no WhatsApp', exact: true }).click();
   const target = await page.evaluate(() => window.__openedURL);
-  check(target.startsWith('https://wa.me/5553999049927?text=') && decodeURIComponent(target).includes('Uma ideia com acentos & contexto.'), 'Formulário prepara a mensagem correta sem enviar');
+  check(target.startsWith('https://wa.me/5553999357192?text=') && decodeURIComponent(target).includes('Uma ideia com acentos & contexto.'), 'Formulário prepara a mensagem correta sem enviar');
   await page.getByRole('button', { name: 'Pausar animações', exact: true }).click();
   check(await page.locator('html').getAttribute('data-motion') === 'paused', 'Controle pausa animações');
   await page.reload();
