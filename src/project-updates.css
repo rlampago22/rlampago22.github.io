@@ -14,3 +14,4 @@
 @media(max-width:600px){.publications{margin-top:24px}.publications-toggle{grid-template-columns:1fr auto;gap:12px 14px}.publications-venues{grid-column:1/-1;grid-row:2}.publications-count{font-size:18px}.publications-action{font-size:11px;padding:9px 13px}}
 .contact-links>a{min-width:0;overflow-wrap:anywhere}
 @media(max-width:600px){.contact-links>a{font-size:14px}}
+@media(max-width:850px){.project-card--life-os{grid-column:span 2}}
