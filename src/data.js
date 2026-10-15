@@ -38,6 +38,14 @@ export const projects = [
     stack: ['Python', 'Streamlit'], flow: ['Lançamentos', 'Fluxo de caixa', 'Relatórios'],
   },
   {
+    id: 'life-os', title: 'LifeOS', short: 'Meu dia em um só painel.',
+    category: 'Agentes de IA', color: '#c49a5a', label: 'PAINEL PESSOAL',
+    description: 'E-mails, agenda, tarefas e prazos do Moodle em uma tela, com agentes de IA que mandam o briefing do dia e me chamam para revisar a noite.',
+    detail: 'Protótipo pessoal que reúne em uma tela e-mails prioritários, agenda com links de reunião, tarefas por prioridade e os prazos do Moodle da UNIPAMPA, coletados com Playwright. Agentes com Gemini enviam um briefing de manhã, conduzem uma revisão à noite que vira diário e fazem uma retrospectiva no domingo, tudo pelo Telegram ou WhatsApp. Os dados ficam no próprio computador. Construí e testei com as minhas contas, mas não segui com o desenvolvimento.',
+    stack: ['Next.js', 'TypeScript', 'Gemini', 'Playwright'], flow: ['E-mails & agenda', 'Agentes de IA', 'Briefing no celular'],
+    repository: null,
+  },
+  {
     id: 'rpc-peixes', title: 'RPC Peixes', short: 'Do dado à curva.',
     category: 'Aplicações', color: '#5f8aa3', label: 'SOFTWARE CIENTÍFICO',
     description: 'Análise da relação peso–comprimento de peixes, das medidas de campo à curva ajustada, em um único fluxo que roda no computador do pesquisador. O gráfico ao lado é a análise real do grumatã da Barragem Sanchurí, publicada nos anais do 18º SIEPE.',

@@ -122,7 +122,7 @@ function MiniTerminal() {
   const commands = {
     help: 'Comandos: whoami · projetos · pesquisa · ia · stack · contato · clear',
     whoami: 'Marcus Querol Jr. · 20 anos, natural de Uruguaiana. Engenharia de Software na UNIPAMPA, Alegrete/RS. IA, psicologia, Saúde Digital e ferramentas para agentes de IA.',
-    projetos: projects.map(project => `${project.title} → ${github}/${project.id}`).join('\n'),
+    projetos: projects.map(project => `${project.title} → ${project.repository === null ? 'projeto local, sem repositório público' : project.repository || `${github}/${project.id}`}`).join('\n'),
     pesquisa: 'App SAE (SBSC 2026) · Recomendação em tempo real (ERBD 2026) · Engenharia de Software e Saúde Digital para pessoas idosas (Springer) · RPC Peixes e VER-SUS (SIEPE 2026) · relatos na II Mostra PET-Saúde Digital. Lista completa na seção Pesquisa.',
     ia: 'Orquestração entre Codex, Claude, Gemini e Antigravity. Contexto preservado, decisões registradas e continuidade entre ferramentas.',
     stack: 'Python · TypeScript · JavaScript · Kotlin · SQL · Java\nReact Native · Expo · Streamlit · Playwright · pytest · Git',
