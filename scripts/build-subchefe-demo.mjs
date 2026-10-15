@@ -3,6 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawn } from 'node:child_process';
 import { normalizeDemoAssets } from './normalize-subchefe-assets.mjs';
+import { checkDemoLeaks } from './check-subchefe-demo.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const original = path.resolve(process.argv[2] || 'C:/Users/Querol/Documents/App_regulação');
@@ -127,6 +128,43 @@ export interface RunResult { provider: ProviderId; model: ModelInfo; analysis: A
 export async function runAnalysis(_input: RunInput): Promise<RunResult> { throw new Error('Chamadas de IA desativadas na demonstração.'); }
 export async function testApiKey(..._args: unknown[]): Promise<void> { throw new Error('Chaves de API desativadas na demonstração.'); }
 `);
+// The AI instructions and the assembly of the text sent to the AI stay private: the demo
+// gets placeholders with the same exports, and checkDemoLeaks confirms nothing slipped through.
+await write('src/core/ai/prompt.ts', `import type { Dossier } from './dossier';
+export type NullableStyle = 'anyOf' | 'typeArray';
+export const SYSTEM_PROMPT = '';
+export const ANALYSIS_KEYS = ['momentos', 'resumo', 'foi_bem', 'pesou', 'cidades', 'hipoteses', 'proximos_passos', 'perguntas_para_sessao', 'atencao'] as const;
+export function analysisSchema(_style: NullableStyle): Record<string, unknown> { return {}; }
+export function buildUserMessage(_dossier: Dossier): string { return ''; }
+`);
+await write('src/core/ai/dossier.ts', `import { addDays } from '../dates';
+import type { CheckIns } from '../scoring';
+import type { CheckIn } from '../types';
+export interface DossierOptions { endKey: string; length: number; includeNotes: boolean; maxTokens?: number; }
+export interface Dossier { text: string; startKey: string; endKey: string; length: number; registered: number; includesNotes: boolean; notesCount: number; approxTokens: number; trimmed: string[]; }
+const HIDDEN = 'No app instalado, aqui aparece exatamente o texto que seria enviado à IA, montado a partir dos registros. Nesta demonstração, esse formato não é exibido.';
+export function describeDayForAi(_c: CheckIn, _includeNotes: boolean): { line: string; note: string | null; reason: string | null } {
+  return { line: HIDDEN, note: null, reason: null };
+}
+export function buildDossier(checkIns: CheckIns, { endKey, length }: DossierOptions): Dossier {
+  const startKey = addDays(endKey, -(length - 1));
+  const registered = Object.keys(checkIns).filter((key) => key >= startKey && key <= endKey).length;
+  const text = HIDDEN + '\\n\\nPeríodo fictício: ' + length + ' dias, ' + registered + ' com registro.';
+  return { text, startKey, endKey, length, registered, includesNotes: false, notesCount: 0, approxTokens: 0, trimmed: [] };
+}
+`);
+// compare.ts also feeds the Progresso charts; only its text-for-the-AI functions at the end are replaced.
+let compare = await fs.readFile(path.join(snapshot, 'src/core/compare.ts'), 'utf8');
+let describeStart = compare.indexOf('export function describeWeeks(');
+if (describeStart < 0) throw new Error('compare.ts changed: describeWeeks not found, update the demo stub.');
+const describeDoc = compare.lastIndexOf('/**', describeStart);
+if (describeDoc >= 0 && /^\/\*\*[\s\S]*?\*\/\s*$/.test(compare.slice(describeDoc, describeStart))) describeStart = describeDoc;
+compare = compare.slice(0, describeStart) + `export function describeWeeks(_w: WeekComparison): string { return ''; }
+export function describeGroup(_c: GroupComparison): string { return ''; }
+export function describeContrastRow(_r: ContrastRow): string { return ''; }
+export function describeComparisons(_c: Comparisons, _maxResultRows = 6, _maxContextRows = 4): string[] { return []; }
+`;
+await write('src/core/compare.ts', compare);
 await write('src/ui/useSpeech.ts', `import type { DeviceVoice, VoiceSettings } from '@/core/voice';
 export async function loadDeviceVoices(): Promise<DeviceVoice[]> { return []; }
 export function useSpeech() {
@@ -207,7 +245,7 @@ await write('src/app/_layout.tsx', layout);
 // Avoid loading a persistent speech/intro setup or an APK update runtime in the web demo.
 await write('src/updates.ts', `export function currentUpdateLabel(): string { return 'Demonstração web · dados fictícios'; }\n`);
 
-await write('README-demo.md', `# Subchefe no portfólio\n\nSnapshot isolado do aplicativo Android existente. Apenas src, assets, package.json e tsconfig são copiados; docs pessoais, .git, .env, backups e o módulo de chaves original ficam fora. Não modifica o aplicativo original.\n\n21 dias fictícios são gerados em memória. Check-in, diário, pontuação, gráficos, comparativos, níveis e paletas usam as telas e regras do app. Recarregar recomeça a demonstração. Não lê nem grava AsyncStorage ou outros dados reais.\n\nA tela de análise apresenta um texto ilustrativo local claramente identificado. API keys, chamadas de IA, voz, abertura, notificações, medição nativa de uso e atualizações Android estão desativadas/indisponíveis. Nenhuma chave é necessária.\n\nExportação Expo SDK 57: web.output single + experiments.baseUrl ${baseUrl}. Hospede os arquivos em ${baseUrl}/. O app é uma SPA; navegue internamente, ou configure fallback para index.html no host. O portfólio envia rotas via postMessage com origem e parent conferidos.\n\nRecriar a demo: node scripts/build-subchefe-demo.mjs [caminho-do-app-original]. Os node_modules originais são usados por uma junction temporária somente neste snapshot. Resultado: public/demos/subchefe; Vite copia ao dist. O HTML standalone precisa ser servido por HTTP para executar esta demo.\n`);
+await write('README-demo.md', `# Subchefe no portfólio\n\nSnapshot isolado do aplicativo Android existente. Apenas src, assets, package.json e tsconfig são copiados; docs pessoais, .git, .env, backups e o módulo de chaves original ficam fora. Não modifica o aplicativo original.\n\n21 dias fictícios são gerados em memória. Check-in, diário, pontuação, gráficos, comparativos, níveis e paletas usam as telas e regras do app. Recarregar recomeça a demonstração. Não lê nem grava AsyncStorage ou outros dados reais.\n\nA tela de análise apresenta um texto ilustrativo local claramente identificado. As instruções da IA e a montagem do texto enviado a ela não entram na demonstração: os dois módulos são substituídos por versões vazias, e o build falha se algum trecho deles aparecer no resultado (scripts/check-subchefe-demo.mjs). API keys, chamadas de IA, voz, abertura, notificações, medição nativa de uso e atualizações Android estão desativadas/indisponíveis. Nenhuma chave é necessária.\n\nExportação Expo SDK 57: web.output single + experiments.baseUrl ${baseUrl}. Hospede os arquivos em ${baseUrl}/. O app é uma SPA; navegue internamente, ou configure fallback para index.html no host. O portfólio envia rotas via postMessage com origem e parent conferidos.\n\nRecriar a demo: node scripts/build-subchefe-demo.mjs [caminho-do-app-original]. Os node_modules originais são usados por uma junction temporária somente neste snapshot. Resultado: public/demos/subchefe; Vite copia ao dist. O HTML standalone precisa ser servido por HTTP para executar esta demo.\n`);
 
 const dependencies = path.join(original, 'node_modules');
 await fs.symlink(dependencies, path.join(snapshot, 'node_modules'), 'junction');
@@ -228,4 +266,5 @@ html = html.replace('<head>', `<head>\n<script>${bridge}</script>`).replace('<ht
 await fs.writeFile(htmlPath, html, 'utf8');
 await fs.copyFile(path.join(snapshot, 'README-demo.md'), path.join(output, 'README-demo.md'));
 await fs.unlink(path.join(snapshot, 'node_modules'));
-console.log('Demo exported to ' + output);
+const checked = await checkDemoLeaks(original, output);
+console.log('Demo exported to ' + output + ' (' + checked + ' private fragments checked, none found)');

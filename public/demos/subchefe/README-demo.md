@@ -4,7 +4,7 @@ Snapshot isolado do aplicativo Android existente. Apenas src, assets, package.js
 
 21 dias fictícios são gerados em memória. Check-in, diário, pontuação, gráficos, comparativos, níveis e paletas usam as telas e regras do app. Recarregar recomeça a demonstração. Não lê nem grava AsyncStorage ou outros dados reais.
 
-A tela de análise apresenta um texto ilustrativo local claramente identificado. API keys, chamadas de IA, voz, abertura, notificações, medição nativa de uso e atualizações Android estão desativadas/indisponíveis. Nenhuma chave é necessária.
+A tela de análise apresenta um texto ilustrativo local claramente identificado. As instruções da IA e a montagem do texto enviado a ela não entram na demonstração: os dois módulos são substituídos por versões vazias, e o build falha se algum trecho deles aparecer no resultado (scripts/check-subchefe-demo.mjs). API keys, chamadas de IA, voz, abertura, notificações, medição nativa de uso e atualizações Android estão desativadas/indisponíveis. Nenhuma chave é necessária.
 
 Exportação Expo SDK 57: web.output single + experiments.baseUrl /demos/subchefe. Hospede os arquivos em /demos/subchefe/. O app é uma SPA; navegue internamente, ou configure fallback para index.html no host. O portfólio envia rotas via postMessage com origem e parent conferidos.
 
