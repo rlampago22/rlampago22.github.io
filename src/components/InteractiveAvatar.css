@@ -112,7 +112,11 @@
 
 @media (max-width: 600px) {
   .interactive-avatar__controls { bottom: -18px; gap: 4px; }
-  @media (prefers-reduced-motion: reduce) {
+  .interactive-avatar__hint { font-size: 6px; }
+  .interactive-avatar__greeting { top: 7%; right: 8px; padding: 6px 9px; font-size: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
   html:not([data-motion='running']) .interactive-avatar .interactive-avatar__float,
   html:not([data-motion='running']) .interactive-avatar .portrait-shadow { animation: none; }
   html:not([data-motion='running']) .interactive-avatar__greeting { transition: none; }
