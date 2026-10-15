@@ -97,14 +97,13 @@ export const orcid = 'https://orcid.org/0009-0005-9192-0121';
 export const lattes = 'https://lattes.cnpq.br/5322341445729243';
 export const graduationProgress = 50;
 
-export const aboutText = 'Sou o Marcus Querol, natural de Uruguaiana, tenho 20 anos e estou na metade da graduação em Engenharia de Software na UNIPAMPA, Campus Alegrete. Me interesso por inteligência artificial e por psicologia, e busco unir as duas: tecnologia que ajuda a criar hábitos melhores e que nos deixa mais conscientes do uso que fazemos dela.';
+export const aboutText = 'Sou o Marcus Querol, natural de Uruguaiana, tenho 20 anos e estou na metade da graduação em Engenharia de Software na UNIPAMPA, Campus Alegrete. Já tenho experiência com desenvolvimento de sistemas, automação de processos e engenharia de requisitos, em projetos acadêmicos, de extensão e com cliente real. Me interesso por inteligência artificial e por psicologia e quero unir as duas em tecnologia que ajude a criar hábitos melhores e a usar a própria tecnologia com mais consciência. É nessas áreas que busco minha próxima oportunidade.';
 
 export const aboutFacts = [
   { id: 'origem', label: 'Origem', value: 'Uruguaiana, RS · hoje em Alegrete' },
   { id: 'curso', label: 'Curso', value: 'Engenharia de Software · UNIPAMPA, Campus Alegrete (noturno)' },
   { id: 'interesses', label: 'Interesses', value: 'Inteligência artificial × psicologia: hábitos e uso consciente da tecnologia' },
   { id: 'bolsas', label: 'Bolsista', value: 'PET-Saúde e-Cidadania · Apoio à Gestão Acadêmica' },
-  { id: 'busco', label: 'Busco', value: 'Estágio em Engenharia de Software, sistemas, automação e IA · manhã e tarde' },
 ];
 
 export const journey = [
@@ -145,7 +144,7 @@ export const toolGroups = [
 export const languages = [
   { name: 'Português', level: 'Nativo', value: 5 },
   { name: 'Inglês', level: 'Intermediário', value: 3 },
-  { name: 'Espanhol', level: 'Básico', value: 2 },
+  { name: 'Espanhol', level: 'Básico', value: 1 },
 ];
 
 // Demonstrações de landing pages feitas com IA. Os prints ficam em public/assets/landings/.
