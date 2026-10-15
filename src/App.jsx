@@ -10,6 +10,7 @@ import Interests from './components/Interests';
 import AboutIntro from './components/AboutIntro';
 import Journey from './components/Journey';
 import Toolbox from './components/Toolbox';
+import Landings from './components/Landings';
 import Intro, { shouldShowIntro } from './components/Intro';
 import { projects, papers, email, github, instagram, orcid, lattes } from './data';
 
@@ -200,6 +201,7 @@ export default function App() {
         <a href={`${github}?tab=repositories`} target="_blank" rel="noreferrer" className="all-projects"><Github size={17} /> Outros experimentos moram no GitHub <ArrowUpRight size={15} /></a>
       </section>
 
+      <Landings asset={asset} />
       <SubchefeDemo />
       <Playground paused={paused} />
 

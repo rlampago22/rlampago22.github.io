@@ -23,6 +23,7 @@ Versão React do portfólio fornecido, com composição inspirada no hero 3D do 
 - `src/components/AboutIntro.*`: “Sobre mim” logo após o hero: título com o WarpText (efeito de vidro em WebGL), parágrafo que sobe palavra por palavra com o SplitText (GSAP) na primeira vez que aparece, e a ficha `sobre-mim.md` com a foto `public/assets/marcus-foto.jpg`. Texto e ficha ficam em `src/data.js` (`aboutText`, `aboutFacts`, `graduationProgress`).
 - `src/components/Journey.*`: trajetória com contexto e atuação no PET-Saúde e-Cidadania, no Apoio à Gestão Acadêmica e na graduação (`journey` em `src/data.js`).
 - Atalhos para GitHub, Instagram, Lattes, ORCID, e-mail e WhatsApp ficam na base do hero (`socials` em `src/App.jsx`), além do contato no fim da página.
+- `src/components/Landings.*`: galeria com prints de seis estudos de landing pages feitos com IA (`landings` em `src/data.js`, imagens em `public/assets/landings/`). Os sites originais ficam nas pastas de Marcus e não são publicados; a Icel Multimarcas é um conceito não oficial.
 - `src/components/Toolbox.*`: ferramentas por categoria e idiomas (`toolGroups` e `languages` em `src/data.js`).
 - A Pesquisa começa recolhida; o botão “Ver todas” abre a lista de publicações.
 - `src/components/Interests.*`: seção “Fora do código” (psicologia, pesca, esportes e música), cada uma com um vídeo do avatar em `public/assets/hobbies/` (MP4 720p sem áudio + JPG do primeiro quadro). A música também mostra o player compacto do Spotify com a playlist Vibez diferente.
