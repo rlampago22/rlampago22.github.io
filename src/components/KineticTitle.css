@@ -1,0 +1,126 @@
+.hero h1 .kinetic-title {
+  color: #322c36;
+}
+
+.kinetic-title {
+  --letter-pointer-x: 50%;
+  --letter-pointer-y: 50%;
+  display: inline-block;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+}
+
+.kinetic-title__trigger {
+  display: block;
+  padding: 0;
+  border: 0;
+  border-radius: 2px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+  white-space: nowrap;
+  text-align: inherit;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.kinetic-title__trigger:focus-visible {
+  outline: 2px dashed #96617d;
+  outline-offset: 8px;
+}
+
+.kinetic-title__visual,
+.kinetic-title__word {
+  display: inline-block;
+  position: relative;
+}
+
+.kinetic-title__base { color: #322c36; }
+.kinetic-title__dot { color: var(--wine, #7f3048); }
+
+.kinetic-title__ink,
+.kinetic-title__code {
+  position: absolute;
+  inset: 0;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  pointer-events: none;
+  user-select: none;
+}
+
+.kinetic-title__ink {
+  background-image:
+    radial-gradient(ellipse at var(--letter-pointer-x) var(--letter-pointer-y), #c99bb5 0%, #96617d 13%, transparent 44%),
+    linear-gradient(110deg, transparent 27%, #7f3048 40%, #ab738c 47%, #7f3048 53%, transparent 68%);
+  background-size: 100% 100%, 250% 100%;
+  background-position: center, 130% center;
+  opacity: .45;
+  animation: kineticInk 9s ease-in-out infinite;
+  transition: opacity .3s;
+}
+
+.kinetic-title__code {
+  /* A small authored SVG paints code into the text, never over its bounds. */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='80' viewBox='0 0 160 80'%3E%3Cg fill='%23d4a8bf' font-family='monospace' font-size='10'%3E%3Ctext x='0' y='13'%3E01%20%7B%20context%20%7D%3C/text%3E%3Ctext x='25' y='32'%3E%26lt%3B%26gt%3B%20code%2001%3C/text%3E%3Ctext x='0' y='51'%3Ebuild()%20%7B%20%7D%3C/text%3E%3Ctext x='34' y='70'%3E10%20%3D%26gt%3B%20next%3C/text%3E%3C/g%3E%3C/svg%3E");
+  background-size: 160px 80px;
+  opacity: .2;
+  animation: kineticCode 14s linear infinite;
+  transition: opacity .3s;
+}
+
+.kinetic-title__trigger:hover .kinetic-title__ink,
+.kinetic-title__trigger:focus-visible .kinetic-title__ink,
+.kinetic-title.is-burst .kinetic-title__ink { opacity: .85; }
+
+.kinetic-title__trigger:hover .kinetic-title__code,
+.kinetic-title__trigger:focus-visible .kinetic-title__code,
+.kinetic-title.is-burst .kinetic-title__code { opacity: .55; }
+
+.kinetic-title.is-burst .kinetic-title__ink { animation-duration: 1.5s; }
+.kinetic-title.is-burst .kinetic-title__code { animation-duration: 2s; }
+
+.kinetic-title__accessible {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.kinetic-title[data-paused='true'] .kinetic-title__ink,
+.kinetic-title[data-paused='true'] .kinetic-title__code {
+  animation: none;
+  opacity: 0;
+  transition: none;
+}
+
+.kinetic-title[data-paused='true'] .kinetic-title__trigger { cursor: default; }
+
+@keyframes kineticInk {
+  0%, 100% { background-position: center, 130% center; }
+  50% { background-position: center, -30% center; }
+}
+
+@keyframes kineticCode {
+  from { background-position: 0 0; }
+  to { background-position: -160px -80px; }
+}
+
+@media (max-width: 600px) {
+  .kinetic-title__code { background-size: 100px 50px; opacity: .22; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-motion='running']) .kinetic-title__ink,
+  html:not([data-motion='running']) .kinetic-title__code { animation: none; opacity: 0 !important; }
+}

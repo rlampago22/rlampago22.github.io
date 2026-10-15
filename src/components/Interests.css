@@ -1,0 +1,314 @@
+.interests-accent {
+  color: var(--wine);
+}
+
+.interests-layout {
+  display: grid;
+  grid-template-columns: minmax(0, .72fr) minmax(0, 2fr);
+  gap: 34px;
+  align-items: start;
+}
+
+.interests-list {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--line);
+}
+
+.interest-item {
+  display: grid;
+  grid-template-columns: 26px 22px 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 10px;
+  align-items: center;
+  text-align: left;
+  padding: 18px 12px 18px 4px;
+  background: transparent;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  transition: color .2s, background .2s, padding .25s;
+}
+
+.interest-item:hover {
+  color: var(--ink);
+  background: #efebf1;
+}
+
+.interest-item.active {
+  color: var(--ink);
+  padding-left: 14px;
+  background: linear-gradient(90deg, #f1e3ea, transparent);
+  box-shadow: inset 3px 0 0 var(--wine);
+}
+
+.interest-item svg {
+  color: var(--wine);
+  grid-row: 1 / 3;
+  grid-column: 2;
+}
+
+.interest-item__index {
+  grid-row: 1 / 3;
+  font: 10px var(--mono);
+  color: #a59ca8;
+}
+
+.interest-item__label {
+  font: 500 20px/1.2 var(--display);
+  letter-spacing: -.5px;
+}
+
+.interest-item__kicker {
+  grid-column: 3;
+  font: 8px/1.6 var(--mono);
+  letter-spacing: 1.2px;
+  color: #a08f9f;
+}
+
+.interest-panel {
+  display: grid;
+  gap: 22px;
+}
+
+.interest-stage {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: 18px;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 38%, #f6e8ee, #e9e3ec 62%, #ded6e2);
+  border: 1px solid var(--line);
+  animation: interest-in .45s ease both;
+}
+
+.interest-stage.is-music {
+  aspect-ratio: auto;
+  background: #1b1a1f;
+  border-color: #1b1a1f;
+}
+
+@keyframes interest-in {
+  from { opacity: 0; transform: translateY(10px) scale(.99); }
+  to { opacity: 1; transform: none; }
+}
+
+html[data-motion='paused'] .interest-stage {
+  animation: none;
+}
+
+.hobby-video,
+.hobby-video video {
+  width: 100%;
+  height: 100%;
+}
+
+.hobby-video video {
+  display: block;
+  object-fit: cover;
+  object-position: 38% center;
+}
+
+.hobby-video__toggle {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: #29262dbb;
+  backdrop-filter: blur(6px);
+  transition: background .2s;
+}
+
+.hobby-video__toggle:hover {
+  background: var(--wine);
+}
+
+.hobby-avatar {
+  position: relative;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.hobby-avatar img {
+  height: 94%;
+  width: auto;
+  filter: drop-shadow(0 18px 22px #4a2a3a26);
+}
+
+.hobby-avatar__tags {
+  position: absolute;
+  left: 22px;
+  top: 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.hobby-avatar__tags span,
+.hobby-avatar__soon {
+  font: 10px var(--mono);
+  color: var(--wine);
+  background: #faf8fbe6;
+  border: 1px solid #e3d4dc;
+  border-radius: 100px;
+  padding: 6px 11px;
+}
+
+.hobby-avatar__soon {
+  position: absolute;
+  left: 22px;
+  bottom: 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--muted);
+}
+
+.hobby-spotify {
+  padding: 14px;
+  display: grid;
+  gap: 12px;
+}
+
+.hobby-spotify iframe {
+  display: block;
+  border: 0;
+  border-radius: 12px;
+}
+
+.hobby-spotify__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.hobby-spotify__chips button {
+  font-size: 11px;
+  padding: 7px 12px;
+  border-radius: 100px;
+  color: #cfc8d3;
+  background: #2b2930;
+  transition: background .2s, color .2s;
+}
+
+.hobby-spotify__chips button:hover {
+  color: #fff;
+}
+
+.hobby-spotify__chips button.active {
+  color: #111;
+  background: #1ed760;
+}
+
+.interest-copy h3 {
+  font: 500 26px/1.2 var(--display);
+  letter-spacing: -.8px;
+  margin-bottom: 10px;
+}
+
+.interest-copy p {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--muted);
+  max-width: 620px;
+}
+
+.interest-copy .text-link {
+  margin-top: 16px;
+}
+
+@media (max-width: 850px) {
+  .interests-layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .interests-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    border-top: 0;
+    gap: 8px;
+  }
+
+  .interest-item,
+  .interest-item.active {
+    flex: 0 0 auto;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto;
+    column-gap: 8px;
+    padding: 10px 15px;
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    box-shadow: none;
+  }
+
+  .interest-item.active {
+    background: var(--ink);
+    color: #fff;
+  }
+
+  .interest-item.active svg {
+    color: #f0c7d6;
+  }
+
+  .interest-item svg {
+    grid-row: 1;
+    grid-column: 1;
+  }
+
+  .interest-item__index,
+  .interest-item__kicker {
+    display: none;
+  }
+
+  .interest-item__label {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 600px) {
+  .interest-stage {
+    border-radius: 14px;
+  }
+
+  .interest-stage:not(.is-music) {
+    aspect-ratio: 4 / 3;
+  }
+
+  .hobby-avatar__tags {
+    left: 12px;
+    top: 12px;
+  }
+
+  .hobby-avatar__tags span,
+  .hobby-avatar__soon {
+    font-size: 8px;
+    padding: 5px 9px;
+  }
+
+  .hobby-avatar__soon {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    justify-content: center;
+  }
+
+  .hobby-spotify {
+    padding: 10px;
+  }
+
+  .interest-copy h3 {
+    font-size: 21px;
+  }
+
+  .interest-copy p {
+    font-size: 13px;
+  }
+}

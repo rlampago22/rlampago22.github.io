@@ -1,0 +1,23 @@
+{
+  "name": "marcus-querol-portfolio",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "export": "npm run build && node scripts/export-standalone.mjs",
+    "demo:build": "node scripts/build-subchefe-demo.mjs",
+    "deploy": "npm run build && node scripts/deploy-pages.mjs"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "latest",
+    "vite": "latest",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "motion": "^12.23.0",
+    "lucide-react": "^0.468.0"
+  },
+  "devDependencies": {}
+}

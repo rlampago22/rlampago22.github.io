@@ -1,0 +1,65 @@
+async page => {
+  const checks = [];
+  const check = (condition, label) => { if (!condition) throw new Error(label); checks.push(label); };
+  const errors = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('http://127.0.0.1:5173');
+  await page.evaluate(() => localStorage.removeItem('portfolio-motion'));
+  await page.reload();
+  await page.getByRole('button', { name: 'Abrir menu', exact: true }).click();
+  check(await page.getByRole('navigation').isVisible(), 'Menu móvel abre');
+  await page.getByRole('navigation').getByRole('link', { name: 'Projetos', exact: true }).click();
+  check(!await page.getByRole('navigation').isVisible(), 'Menu móvel fecha ao navegar');
+  await page.getByRole('button', { name: 'Aplicações', exact: true }).click();
+  check(await page.locator('.project-card').count() === 2, 'Filtro aplicações mostra dois projetos');
+  await page.getByRole('button', { name: 'Agentes de IA', exact: true }).click();
+  check(await page.locator('.project-card').count() === 3, 'Filtro IA mostra três projetos');
+  await page.getByRole('button', { name: 'Todos 05', exact: true }).click();
+  check(await page.locator('.project-card').count() === 5, 'Filtro todos restaura cinco projetos');
+  const firstFolder = page.locator('.folder-toggle').first();
+  await firstFolder.click();
+  check(await firstFolder.getAttribute('aria-expanded') === 'true', 'Pasta abre por clique');
+  await page.screenshot({ path: 'qa/mobile-folder-open.png' });
+  await firstFolder.focus();
+  await firstFolder.press('Enter');
+  check(await firstFolder.getAttribute('aria-expanded') === 'false', 'Pasta fecha pelo teclado');
+  await page.getByRole('button', { name: 'Conhecer projeto Antigravity Handoff', exact: true }).click();
+  check(await page.getByRole('dialog').isVisible(), 'Detalhes do projeto abrem');
+  check((await page.getByRole('link', { name: 'Explorar repositório' }).getAttribute('href')).endsWith('/antigravity-handoff'), 'Repositório corresponde ao projeto');
+  await page.keyboard.press('Escape');
+  check(!await page.getByRole('dialog').isVisible(), 'Escape fecha os detalhes');
+  await page.getByRole('button', { name: 'Simular passagem de contexto', exact: true }).click();
+  check(await page.getByRole('button', { name: 'Claude', exact: true }).getAttribute('aria-pressed') === 'true', 'Handoff altera o modelo demonstrativo');
+  await page.getByRole('button', { name: 'Prefere explorar pelo terminal?', exact: true }).click();
+  await page.getByRole('textbox', { name: 'Comando do terminal' }).fill('<img src=x onerror=alert(1)>');
+  await page.getByRole('button', { name: 'Executar comando', exact: true }).click();
+  check(await page.locator('.terminal-output img').count() === 0, 'Terminal trata comandos como texto');
+  await page.getByRole('button', { name: 'stack', exact: true }).click();
+  check((await page.locator('.terminal-output').textContent()).includes('TypeScript'), 'Terminal responde aos comandos');
+  await page.getByRole('textbox', { name: 'Como posso te chamar?' }).fill('Teste de interface');
+  await page.getByRole('textbox', { name: 'O que vamos tirar do papel?' }).fill('Uma ideia com acentos & contexto.');
+  await page.evaluate(() => { window.__openedURL = ''; window.open = url => { window.__openedURL = url; return null; }; });
+  await page.getByRole('button', { name: 'Continuar no WhatsApp', exact: true }).click();
+  const target = await page.evaluate(() => window.__openedURL);
+  check(target.startsWith('https://wa.me/5553999049927?text=') && decodeURIComponent(target).includes('Uma ideia com acentos & contexto.'), 'Formulário prepara a mensagem correta sem enviar');
+  await page.getByRole('button', { name: 'Pausar animações', exact: true }).click();
+  check(await page.locator('html').getAttribute('data-motion') === 'paused', 'Controle pausa animações');
+  await page.reload();
+  check(await page.locator('html').getAttribute('data-motion') === 'running', 'Nova visita inicia as animações automaticamente');
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.waitForFunction(() => document.documentElement.dataset.motion === 'running');
+  check(true, 'Autoplay solicitado pelo usuário funciona com reduzir movimento no sistema');
+  for (const width of [320, 390, 768, 1024, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    check(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `Sem rolagem horizontal em ${width}px`);
+  }
+  const missing = await page.locator('img').evaluateAll(images => images.filter(image => !image.complete || image.naturalWidth === 0).map(image => image.src));
+  check(missing.length === 0, 'Todos os recursos de imagem carregam');
+  check(errors.length === 0, 'Sem erros JavaScript');
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto('http://127.0.0.1:5173');
+  return { checks, errors };
+}
+

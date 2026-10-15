@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.playwright-cli/
+*.log
+.demo-source/
+exports/
+qa/*.png
+motionsites-reference.png
+.claude/
