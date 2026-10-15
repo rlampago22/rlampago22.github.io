@@ -19,8 +19,8 @@ export const projects = [
   {
     id: 'antigravity-remote', title: 'Antigravity Remote', short: 'Seus agentes, a um toque.',
     category: 'Agentes de IA', color: '#749e8f', label: 'CONTROLE REMOTO',
-    description: 'Acompanhe e controle agentes de desenvolvimento pelo Telegram.',
-    detail: 'Uma interface remota para enviar instruções, acompanhar logs e receber notificações. Aproxima o trabalho dos agentes de uma conversa no Telegram.',
+    description: 'Deixo o computador ligado e mando instruções para os agentes de qualquer lugar pelo Telegram. Até de Nárnia, se o PC estiver ligado.',
+    detail: 'Um bot em Python para o Telegram: com o computador ligado, mando instruções em tempo real para os agentes do Google Antigravity de onde eu estiver, acompanho os logs ao vivo e recebo alertas de voz quando algo termina ou precisa de mim.',
     stack: ['Python', 'Telegram API'], flow: ['Telegram', 'Comandos', 'Agente'],
   },
   {
