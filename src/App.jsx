@@ -154,6 +154,34 @@ export default function App() {
   const copyTimeout = useRef(null);
   useEffect(() => () => clearTimeout(copyTimeout.current), []);
   useEffect(() => { document.documentElement.dataset.motion = paused ? 'paused' : 'running'; }, [paused]);
+  // The AI logos around the portrait shy away from the cursor and grow a little as it gets close.
+  useEffect(() => {
+    const hero = document.querySelector('.hero');
+    const badges = [...document.querySelectorAll('.orbit')];
+    const offsets = new Map(badges.map(badge => [badge, { x: 0, y: 0 }]));
+    const reset = () => badges.forEach(badge => { offsets.set(badge, { x: 0, y: 0 }); badge.style.translate = ''; badge.style.scale = ''; delete badge.dataset.near; });
+    if (paused || !hero) { reset(); return undefined; }
+    const radius = 170;
+    const move = event => {
+      if (event.pointerType === 'touch') return;
+      badges.forEach(badge => {
+        const box = badge.getBoundingClientRect();
+        const offset = offsets.get(badge);
+        const dx = event.clientX - (box.left + box.width / 2 - offset.x);
+        const dy = event.clientY - (box.top + box.height / 2 - offset.y);
+        const distance = Math.hypot(dx, dy) || 1;
+        const pull = Math.max(0, 1 - distance / radius);
+        const next = { x: (-dx / distance) * 26 * pull, y: (-dy / distance) * 26 * pull };
+        offsets.set(badge, next);
+        badge.style.translate = `${next.x.toFixed(1)}px ${next.y.toFixed(1)}px`;
+        badge.style.scale = (1 + 0.16 * pull).toFixed(3);
+        if (pull > 0.35) badge.dataset.near = ''; else delete badge.dataset.near;
+      });
+    };
+    hero.addEventListener('pointermove', move, { passive: true });
+    hero.addEventListener('pointerleave', reset);
+    return () => { hero.removeEventListener('pointermove', move); hero.removeEventListener('pointerleave', reset); reset(); };
+  }, [paused]);
   useEffect(() => { try { localStorage.removeItem('portfolio-motion'); } catch {} }, []);
   function toggleMotion() { setMotionPaused(value => !value); }
   async function copyEmail() {
@@ -177,7 +205,7 @@ export default function App() {
         <h1 id="hero-title"><KineticTitle text="Marcus Querol" paused={paused} /></h1>
         <div className="hero-scene">
           <div className="hero-description"><div className="small-rule" /><p>Entre código,<br /> pesquisa e <em>possibilidades.</em></p><span>Engenharia de Software<br /> & orquestração de IA</span></div>
-          <InteractiveAvatar src={asset('marcus-3d.webp')} paused={paused || introActive} onRequestMotion={() => setMotionPaused(false)} alt="Retrato 3D de Marcus Querol usando uma boina bordô" />
+          <InteractiveAvatar src={asset('marcus-3d.webp')} eyes={{ left: { eye: asset('eyes/eye-left.webp'), iris: asset('eyes/iris-left.webp') }, right: { eye: asset('eyes/eye-right.webp'), iris: asset('eyes/iris-right.webp') } }} paused={paused || introActive} onRequestMotion={() => setMotionPaused(false)} alt="Retrato 3D de Marcus Querol usando uma boina bordô" />
           <div className="orbit orbit-openai" aria-hidden="true"><Logo name="openai" /><span>ChatGPT</span></div>
           <div className="orbit orbit-claude" aria-hidden="true"><Logo name="claude" /><span>Claude</span></div>
           <div className="orbit orbit-gemini" aria-hidden="true"><Logo name="gemini" /><span>Gemini</span></div>

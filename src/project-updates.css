@@ -16,3 +16,4 @@
 @media(max-width:600px){.contact-links>a{font-size:14px}}
 @media(max-width:850px){.project-card--life-os{grid-column:span 2}}
 .projects-count{font-size:12px;color:var(--muted)}.projects-count b{font:500 18px var(--display);color:var(--wine);margin-right:4px}
+.orbit{transition:translate .45s cubic-bezier(.23,1,.32,1),scale .45s cubic-bezier(.23,1,.32,1),box-shadow .35s}.orbit[data-near]{box-shadow:10px 18px 30px #4b354430,inset 0 1px 0 white}

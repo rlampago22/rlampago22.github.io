@@ -5,9 +5,18 @@ import './InteractiveAvatar.css';
 const spring = { stiffness: 125, damping: 19, mass: 0.8 };
 const clamp = value => Math.max(-1, Math.min(1, value));
 
+// Eye openings and irises measured on the 1254px portrait (x, y, width, height).
+// The irises are separate layers clipped to each opening, so they can follow the cursor.
+const PORTRAIT = 1254;
+const EYES = {
+  left: { eye: [430, 642, 137, 71], iris: [36, -7, 79, 79] },
+  right: { eye: [704, 632, 133, 65], iris: [21, -9, 77, 77] },
+};
+const pct = (value, total) => `${(value / total) * 100}%`;
+
 // The supplied portrait is a transparent image. Nested transforms give it
 // depth and a responsive greeting without pretending it is a rigged model.
-export default function InteractiveAvatar({ src, paused = false, onRequestMotion, alt = 'Retrato de Marcus Querol com boina bordô' }) {
+export default function InteractiveAvatar({ src, eyes, paused = false, onRequestMotion, alt = 'Retrato de Marcus Querol com boina bordô' }) {
   const stopped = Boolean(paused);
   const stageRef = useRef(null);
   const greetingTimer = useRef(null);
@@ -23,9 +32,15 @@ export default function InteractiveAvatar({ src, paused = false, onRequestMotion
   const x = useSpring(0, spring);
   const y = useSpring(0, spring);
 
+  const look = useCallback((horizontal, vertical) => {
+    stageRef.current?.style.setProperty('--look-x', horizontal.toFixed(3));
+    stageRef.current?.style.setProperty('--look-y', vertical.toFixed(3));
+  }, []);
+
   const center = useCallback((instant = false) => {
     [rotateX, rotateY, x, y].forEach(value => instant ? value.jump(0) : value.set(0));
-  }, [rotateX, rotateY, x, y]);
+    look(0, 0);
+  }, [rotateX, rotateY, x, y, look]);
 
   useEffect(() => {
     const stage = stageRef.current;
@@ -52,6 +67,7 @@ export default function InteractiveAvatar({ src, paused = false, onRequestMotion
       rotateY.set(horizontal * 13);
       x.set(horizontal * 8);
       y.set(vertical * 5);
+      look(horizontal, vertical);
     };
     const leave = () => center();
     surface.addEventListener('pointermove', follow, { passive: true });
@@ -60,7 +76,7 @@ export default function InteractiveAvatar({ src, paused = false, onRequestMotion
       surface.removeEventListener('pointermove', follow);
       surface.removeEventListener('pointerleave', leave);
     };
-  }, [stopped, center, rotateX, rotateY, x, y, reactionScope]);
+  }, [stopped, center, rotateX, rotateY, x, y, reactionScope, look]);
 
   useEffect(() => () => {
     clearTimeout(greetingTimer.current);
@@ -116,6 +132,10 @@ export default function InteractiveAvatar({ src, paused = false, onRequestMotion
         <button className="interactive-avatar__portrait-button" onClick={interact} disabled={stopped && !onRequestMotion} aria-label="Acenar com o avatar de Marcus" title={stopped ? 'Toque para ativar as animações' : 'Clique ou toque para acenar'}>
           <div ref={reactionScope} className="interactive-avatar__reaction">
             <img ref={imageRef} className="portrait" src={src} alt={alt} fetchPriority="high" width="1254" height="1254" draggable="false" />
+            {eyes && Object.entries(EYES).map(([side, { eye, iris }]) => <span key={side} className="avatar-eye" aria-hidden="true" style={{ left: pct(eye[0], PORTRAIT), top: pct(eye[1], PORTRAIT), width: pct(eye[2], PORTRAIT), height: pct(eye[3], PORTRAIT), WebkitMaskImage: `url(${eyes[side].eye})`, maskImage: `url(${eyes[side].eye})` }}>
+              <img className="avatar-eye__white" src={eyes[side].eye} alt="" draggable="false" />
+              <img className="avatar-eye__iris" src={eyes[side].iris} alt="" draggable="false" style={{ left: pct(iris[0], eye[2]), top: pct(iris[1], eye[3]), width: pct(iris[2], eye[2]), height: pct(iris[3], eye[3]) }} />
+            </span>)}
           </div>
         </button>
       </motion.div>

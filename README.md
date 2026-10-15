@@ -17,7 +17,8 @@ Versão React do portfólio fornecido, com composição inspirada no hero 3D do 
 - `src/styles.css`: identidade visual e responsividade.
 - `src/components/`: componentes React Bits adaptados dos prompts fornecidos, com teclado e pausa controlada pelo site.
 - `public/assets/`: retrato otimizado em WebP e ícones SVG.
-- `src/components/InteractiveAvatar.*`: inclinação com suavização, reação ao clique/toque e pausa.
+- `src/components/InteractiveAvatar.*`: inclinação com suavização, reação ao clique/toque e pausa. Os olhos seguem o cursor: as íris são camadas separadas (`public/assets/eyes/`), recortadas no formato de cada olho e posicionadas sobre o retrato de 1254 px; o branco por baixo foi preenchido a partir da própria imagem. Se o retrato mudar, as camadas e as medidas em `EYES` precisam ser refeitas.
+- Logos de ChatGPT, Claude e Gemini no hero se afastam e crescem um pouco quando o cursor se aproxima (efeito em `src/App.jsx`).
 - `src/components/KineticTitle.*`: brilho e textura de código recortados dentro das letras.
 - `src/components/Intro.*` e `src/components/PromptBar.*`: abertura com a PromptBar do React Bits, que digita “ir para o portfólio do Marcus”, envia e abre o site. Aparece uma vez por visita (sessionStorage) e pode ser pulada pelo botão, por Esc ou por um toque. A PromptBar ganhou só a opção `autoType` para a digitação automática.
 - `src/components/AboutIntro.*`: “Sobre mim” logo após o hero: título com o WarpText (efeito de vidro em WebGL), parágrafo que sobe palavra por palavra com o SplitText (GSAP) na primeira vez que aparece, e a ficha `sobre-mim.md` com a foto `public/assets/marcus-foto.jpg`. Texto e ficha ficam em `src/data.js` (`aboutText`, `aboutFacts`, `graduationProgress`).
