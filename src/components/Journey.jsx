@@ -26,6 +26,7 @@ export default function Journey() {
           {item.course && <Block label="O curso">{item.course}</Block>}
           {item.group && <Block label="O grupo">{item.group}</Block>}
           {item.work && <Block label="O que eu faço">{item.work}</Block>}
+          {item.extra && <Block label="Formação complementar">{item.extra}</Block>}
         </div>
         {item.progress != null && <div className="journey-card__progress">
           <div><span>Graduação concluída</span><b>{item.progress}%</b></div>

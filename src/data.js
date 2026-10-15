@@ -5,7 +5,7 @@ export const projects = [
     id: 'subchefe', title: 'Subchefe', short: 'Um pequeno passo, todos os dias.',
     category: 'Aplicações', color: '#75917c', label: 'ROTINA & HÁBITOS',
     description: 'Um check-in diário vira pontuação, progresso e comparativos de rotina.',
-    detail: 'Aplicativo Android pessoal de acompanhamento de rotina e hábitos. Combina check-in diário, média móvel de sete dias, progressão por níveis, comparativos e análise opcional com Claude ou Groq. Os registros ficam no aparelho. Desenvolvido com apoio do Claude Code, sob minha direção de produto e com uso e testes reais. A demonstração web usa apenas registros fictícios e análise ilustrativa.',
+    detail: 'Aplicativo Android pessoal de acompanhamento de rotina e hábitos. Combina check-in diário, média móvel de sete dias, progressão por níveis, comparativos e análise opcional com Claude ou Groq. Os registros ficam no aparelho, a lógica fica em funções puras cobertas por mais de 260 testes automatizados (node:test) e a entrega é feita por EAS Build (APK) e EAS Update (OTA). Desenvolvido com apoio do Claude Code, sob minha direção de produto e com uso e testes reais. A demonstração web usa apenas registros fictícios e análise ilustrativa.',
     stack: ['React Native', 'TypeScript', 'Expo', 'Kotlin'], flow: ['Check-in', 'Progresso', 'Comparativos'],
     repository: null, demo: '#subchefe', featured: true,
   },
@@ -34,7 +34,7 @@ export const projects = [
     id: 'SISTEMA-SAN-RAFAEL', title: 'Sistema San Rafael', short: 'Gestão que simplifica a rotina.',
     category: 'Aplicações', color: '#819ab7', label: 'SOFTWARE APLICADO',
     description: 'Finanças condominiais organizadas em uma aplicação simples.',
-    detail: 'Sistema para a rotina financeira de um condomínio: rateio, pagamentos, acompanhamento de inadimplência, fluxo de caixa e exportação de relatórios em PDF e CSV.',
+    detail: 'Sistema para a rotina financeira de um condomínio, entregue para um cliente real (Edifício San Rafael, nov.–dez. 2025): rateio, pagamentos, acompanhamento de inadimplência, fluxo de caixa, dashboard com filtros e exportação de relatórios em PDF e CSV. Os requisitos foram levantados junto ao cliente.',
     stack: ['Python', 'Streamlit'], flow: ['Lançamentos', 'Fluxo de caixa', 'Relatórios'],
   },
   {
@@ -97,46 +97,49 @@ export const orcid = 'https://orcid.org/0009-0005-9192-0121';
 export const lattes = 'https://lattes.cnpq.br/5322341445729243';
 export const graduationProgress = 50;
 
-export const aboutText = 'Sou o Marcus Querol, natural de Uruguaiana, tenho 20 anos e estou na metade da graduação em Engenharia de Software na UNIPAMPA. Me interesso por inteligência artificial e por psicologia, e busco unir as duas: tecnologia que ajuda a criar hábitos melhores e que nos deixa mais conscientes do uso que fazemos dela.';
+export const aboutText = 'Sou o Marcus Querol, natural de Uruguaiana, tenho 20 anos e estou na metade da graduação em Engenharia de Software na UNIPAMPA, Campus Alegrete. Me interesso por inteligência artificial e por psicologia, e busco unir as duas: tecnologia que ajuda a criar hábitos melhores e que nos deixa mais conscientes do uso que fazemos dela.';
 
 export const aboutFacts = [
   { id: 'origem', label: 'Origem', value: 'Uruguaiana, RS · hoje em Alegrete' },
-  { id: 'curso', label: 'Curso', value: 'Engenharia de Software · UNIPAMPA' },
+  { id: 'curso', label: 'Curso', value: 'Engenharia de Software · UNIPAMPA, Campus Alegrete (noturno)' },
   { id: 'interesses', label: 'Interesses', value: 'Inteligência artificial × psicologia: hábitos e uso consciente da tecnologia' },
   { id: 'bolsas', label: 'Bolsista', value: 'PET-Saúde e-Cidadania · Apoio à Gestão Acadêmica' },
+  { id: 'busco', label: 'Busco', value: 'Estágio em Engenharia de Software, sistemas, automação e IA · manhã e tarde' },
 ];
 
 export const journey = [
   {
-    id: 'pet-saude', date: 'AGO 2025 — ATUAL', role: 'Bolsista',
+    id: 'pet-saude', date: 'AGO 2025 — ATUAL', role: 'Monitor bolsista',
     title: 'PET-Saúde e-Cidadania', org: 'PET-Saúde: Informação e Saúde Digital · Pampa Conectado',
     context: 'O PET-Saúde (Programa de Educação pelo Trabalho para a Saúde), do Ministério da Saúde com o MEC, aproxima universidade, serviços do SUS e comunidade. Na edição Informação e Saúde Digital, a UNIPAMPA coordena o projeto Pampa Conectado, com as secretarias de saúde de Alegrete, Bagé, Itaqui, Jaguari e Uruguaiana.',
     group: 'O e-Cidadania trabalha entre tecnologia e serviços de saúde: letramento digital em saúde, saúde da pessoa idosa, visitas técnicas a unidades de Alegrete e Uruguaiana, cursos para cuidadores e profissionais do SUS e recursos educacionais abertos.',
-    work: 'Levo a engenharia de software para o grupo: levantamento de requisitos com as equipes, prototipação de apps como o App SAE e pesquisa publicada. Também participei do VER-SUS em Uruguaiana.',
+    work: 'Levo a engenharia de software para o grupo: visitas de campo, levantamento de necessidades, Documento de Requisitos de Software (SRS) e prototipação mobile com IA generativa do App SAE, que virou artigo no SBSC 2026. Também participei do VER-SUS em Uruguaiana.',
     tags: ['Saúde digital', 'Requisitos', 'App SAE', 'VER-SUS'],
   },
   {
     id: 'gestao', date: 'ABR 2026 — ATUAL', role: 'Bolsista',
-    title: 'Apoio à Gestão Acadêmica', org: 'UNIPAMPA · Pró-Reitoria de Graduação (PROGRAD)',
+    title: 'Apoio à Gestão Acadêmica', org: 'Coordenação de Engenharia de Software · UNIPAMPA/PROGRAD',
     context: 'Bolsa da PROGRAD que apoia coordenações acadêmicas e de curso para aprimorar processos, qualificar o ingresso de novos alunos e combater a evasão e a retenção.',
-    work: 'Automatizo processos acadêmicos com Python, Playwright e agentes de IA, tirando tarefas repetitivas das mãos da equipe.',
-    tags: ['Python', 'Playwright', 'Automação', 'Agentes de IA'],
+    work: 'Na coordenação de Engenharia de Software, criei uma automação em Python e Playwright que acessa o sistema GURI, baixa os planos de ensino e os organiza no Google Drive. Também pratico Git, testes, requisitos e agentes autônomos com Agno.',
+    tags: ['Python', 'Playwright', 'Google Drive API', 'Agno'],
   },
   {
     id: 'graduacao', date: '2025 — 2028 · PREVISÃO', role: 'Graduação',
     title: 'Engenharia de Software', org: 'Universidade Federal do Pampa · Campus Alegrete',
     course: 'Bacharelado que forma para todo o ciclo de vida do software: requisitos, arquitetura, construção, testes, qualidade e gestão de projetos. Estou na metade do curso e levo para a sala o que aprendo na pesquisa e nas bolsas, e vice-versa.',
     progress: graduationProgress,
+    extra: 'Residência em TIC 16 (BRISA, SOFTEX, MCTI e UNIPAMPA, 180 h, 2025), VER-SUS (84 h, 2026), IA e Ferramentas e Git no VS Code (UNIPAMPA, 2026) e Python 3 (Curso em Vídeo).',
     tags: ['Requisitos', 'Arquitetura', 'Testes', 'Gestão de projetos'],
   },
 ];
 
 export const toolGroups = [
-  { id: 'ia', title: 'IA no fluxo de trabalho', note: 'Contexto que passa de uma ferramenta para a outra.', items: [{ name: 'Claude Code', logo: 'claude' }, { name: 'ChatGPT / Codex', logo: 'openai' }, { name: 'Gemini', logo: 'gemini' }, { name: 'Antigravity' }, { name: 'Ollama' }, { name: 'Rork' }] },
-  { id: 'linguagens', title: 'Linguagens', items: [{ name: 'Python' }, { name: 'TypeScript' }, { name: 'JavaScript' }, { name: 'Kotlin' }, { name: 'Java' }, { name: 'SQL' }] },
-  { id: 'apps', title: 'Apps & web', items: [{ name: 'React' }, { name: 'React Native' }, { name: 'Expo' }, { name: 'Vite' }, { name: 'Streamlit' }, { name: 'GSAP & Motion' }] },
-  { id: 'qualidade', title: 'Dados, testes & entrega', items: [{ name: 'SQLite' }, { name: 'pytest' }, { name: 'Playwright' }, { name: 'Git & GitHub' }, { name: 'GitHub Pages' }] },
-  { id: 'ambiente', title: 'Ambiente', items: [{ name: 'VS Code' }, { name: 'IntelliJ IDEA' }, { name: 'Warp' }, { name: 'PowerShell' }] },
+  { id: 'ia', title: 'IA no fluxo de trabalho', note: 'Engenharia assistida por IA, skills e contexto que passa de uma ferramenta para a outra.', items: [{ name: 'Claude Code & API Anthropic', logo: 'claude' }, { name: 'OpenAI Codex & ChatGPT', logo: 'openai' }, { name: 'Gemini', logo: 'gemini' }, { name: 'Google Antigravity' }, { name: 'Agno (agentes)' }, { name: 'Groq' }, { name: 'NotebookLM' }, { name: 'Ollama' }, { name: 'Rork' }, { name: 'Vídeos com IA' }] },
+  { id: 'automacao', title: 'Automação', items: [{ name: 'Python' }, { name: 'Playwright' }, { name: 'APIs REST (Google Drive, Telegram, LLMs)' }, { name: 'PowerShell & Shell' }, { name: 'Excel avançado' }] },
+  { id: 'linguagens', title: 'Linguagens', items: [{ name: 'Python' }, { name: 'TypeScript' }, { name: 'JavaScript' }, { name: 'Kotlin' }, { name: 'Java' }, { name: 'SQL' }, { name: 'HTML & CSS' }] },
+  { id: 'apps', title: 'Apps & web', items: [{ name: 'React' }, { name: 'React Native' }, { name: 'Expo & EAS' }, { name: 'Vite' }, { name: 'Streamlit' }, { name: 'Bootstrap' }, { name: 'GSAP & Motion' }] },
+  { id: 'qualidade', title: 'Dados, testes & entrega', items: [{ name: 'SQLite' }, { name: 'PostgreSQL' }, { name: 'SQL Server' }, { name: 'pytest' }, { name: 'node:test' }, { name: 'Git, GitHub & GitLab' }, { name: 'GitHub Pages' }] },
+  { id: 'ambiente', title: 'Ambiente', items: [{ name: 'VS Code' }, { name: 'IntelliJ IDEA' }, { name: 'Warp' }] },
 ];
 
 export const languages = [

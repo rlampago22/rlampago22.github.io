@@ -59,7 +59,7 @@ export default function Interests({ asset, paused }) {
           <h3>{active.title}</h3>
           <p>{active.text}</p>
           {active.playlist && <>
-            <iframe className="interest-spotify" title={`Playlist ${active.playlist.name} no Spotify`} src={`https://open.spotify.com/embed/playlist/${active.playlist.id}?utm_source=generator&theme=0`} width="100%" height="152" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" />
+            <iframe className="interest-spotify" title={`Playlist ${active.playlist.name} no Spotify`} src={`https://open.spotify.com/embed/playlist/${active.playlist.id}?utm_source=generator&theme=0`} width="100%" height="352" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" />
             <a className="text-link" href={spotifyProfile} target="_blank" rel="noreferrer">Mais playlists no meu Spotify <ArrowUpRight size={15} /></a>
           </>}
         </div>
