@@ -15,3 +15,4 @@
 .contact-links>a{min-width:0;overflow-wrap:anywhere}
 @media(max-width:600px){.contact-links>a{font-size:14px}}
 @media(max-width:850px){.project-card--life-os{grid-column:span 2}}
+.projects-count{font-size:12px;color:var(--muted)}.projects-count b{font:500 18px var(--display);color:var(--wine);margin-right:4px}

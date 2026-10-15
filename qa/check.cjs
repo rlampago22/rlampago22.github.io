@@ -12,12 +12,7 @@ async page => {
   check(await page.getByRole('navigation').isVisible(), 'Menu móvel abre');
   await page.getByRole('navigation').getByRole('link', { name: 'Projetos', exact: true }).click();
   check(!await page.getByRole('navigation').isVisible(), 'Menu móvel fecha ao navegar');
-  await page.getByRole('button', { name: 'Aplicações', exact: true }).click();
-  check(await page.locator('.project-card').count() === 2, 'Filtro aplicações mostra dois projetos');
-  await page.getByRole('button', { name: 'Agentes de IA', exact: true }).click();
-  check(await page.locator('.project-card').count() === 3, 'Filtro IA mostra três projetos');
-  await page.getByRole('button', { name: 'Todos 05', exact: true }).click();
-  check(await page.locator('.project-card').count() === 5, 'Filtro todos restaura cinco projetos');
+  check(await page.locator('.project-card').count() === 7, 'Mostra os sete projetos, sem filtros');
   const firstFolder = page.locator('.folder-toggle').first();
   await firstFolder.click();
   check(await firstFolder.getAttribute('aria-expanded') === 'true', 'Pasta abre por clique');
