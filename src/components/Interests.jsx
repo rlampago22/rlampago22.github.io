@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowUpRight, Pause, Play, Music2, Fish, Trophy, Brain } from 'lucide-react';
-import { interests, playlists, spotifyProfile } from '../data';
+import { interests, spotifyProfile } from '../data';
 import './Interests.css';
 
 const icons = { psicologia: Brain, pesca: Fish, esportes: Trophy, musica: Music2 };
 
-function HobbyVideo({ src, poster, label, paused }) {
+function HobbyVideo({ src, poster, label, focus, paused }) {
   const videoRef = useRef(null);
   const [playing, setPlaying] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -31,31 +31,14 @@ function HobbyVideo({ src, poster, label, paused }) {
   }
 
   return <div className="hobby-video">
-    <video ref={videoRef} src={src} poster={poster} muted loop playsInline preload="none" aria-label={`Vídeo do avatar de Marcus: ${label}`} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} />
+    <video ref={videoRef} src={src} poster={poster} style={focus ? { objectPosition: focus } : undefined} muted loop playsInline preload="none" aria-label={`Vídeo do avatar de Marcus: ${label}`} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} />
     <button className="hobby-video__toggle" onClick={toggle} aria-label={playing ? 'Pausar vídeo' : 'Reproduzir vídeo'}>{playing ? <Pause size={15} /> : <Play size={15} />}</button>
-  </div>;
-}
-
-function SpotifyPlayer() {
-  const [playlist, setPlaylist] = useState(playlists[0]);
-  return <div className="hobby-spotify">
-    <div className="hobby-spotify__chips" aria-label="Escolher playlist">{playlists.map(item => <button key={item.id} className={item.id === playlist.id ? 'active' : ''} aria-pressed={item.id === playlist.id} onClick={() => setPlaylist(item)}>{item.name}</button>)}</div>
-    <iframe key={playlist.id} title={`Playlist ${playlist.name} no Spotify`} src={`https://open.spotify.com/embed/playlist/${playlist.id}?utm_source=generator`} width="100%" height="352" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" />
   </div>;
 }
 
 export default function Interests({ asset, paused }) {
   const [activeId, setActiveId] = useState('pesca');
   const active = interests.find(item => item.id === activeId);
-
-  let stage;
-  if (active.video) stage = <HobbyVideo src={asset(active.video)} poster={asset(active.poster)} label={active.label} paused={paused} />;
-  else if (active.spotify) stage = <SpotifyPlayer />;
-  else stage = <div className="hobby-avatar">
-    <img src={asset('hobbies/marcus-corpo.webp')} alt="" width="434" height="980" />
-    {active.tags && <div className="hobby-avatar__tags">{active.tags.map(tag => <span key={tag}>{tag}</span>)}</div>}
-    {active.soon && <span className="hobby-avatar__soon"><span className="tiny-dot" /> {active.soon}</span>}
-  </div>;
 
   return <section id="interesses" className="interests-section section-wrap" aria-labelledby="interests-title">
     <div className="section-heading"><div><span className="section-label">FORA DO CÓDIGO</span><h2 id="interests-title">Além da tela<span className="interests-accent">.</span></h2></div><p>O que me move quando desligo o editor.<br /> <span>Escolha um interesse e veja o avatar em ação.</span></p></div>
@@ -71,11 +54,14 @@ export default function Interests({ asset, paused }) {
         </button>;
       })}</div>
       <div className="interest-panel">
-        <div id="interest-stage" key={active.id} className={`interest-stage interest-stage--${active.id}${active.spotify ? ' is-music' : ''}`}>{stage}</div>
+        <div id="interest-stage" key={active.id} className="interest-stage"><HobbyVideo src={asset(active.video)} poster={asset(active.poster)} label={active.label} focus={active.focus} paused={paused} /></div>
         <div className="interest-copy" aria-live="polite">
           <h3>{active.title}</h3>
           <p>{active.text}</p>
-          {active.spotify && <a className="text-link" href={spotifyProfile} target="_blank" rel="noreferrer">Meu perfil no Spotify <ArrowUpRight size={15} /></a>}
+          {active.playlist && <>
+            <iframe className="interest-spotify" title={`Playlist ${active.playlist.name} no Spotify`} src={`https://open.spotify.com/embed/playlist/${active.playlist.id}?utm_source=generator&theme=0`} width="100%" height="152" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" />
+            <a className="text-link" href={spotifyProfile} target="_blank" rel="noreferrer">Mais playlists no meu Spotify <ArrowUpRight size={15} /></a>
+          </>}
         </div>
       </div>
     </div>

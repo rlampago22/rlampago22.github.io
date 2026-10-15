@@ -121,7 +121,7 @@ export default function InteractiveAvatar({ src, paused = false, onRequestMotion
       </motion.div>
     </div>
     <div className="portrait-shadow" aria-hidden="true" />
-    <span className="interactive-avatar__greeting" aria-hidden="true">oi! <span>👋</span></span>
+    <span className="interactive-avatar__greeting" aria-hidden="true">olá! <span>👋</span></span>
     <div className="interactive-avatar__controls">
       <span className="interactive-avatar__hint">{stopped ? 'pausado · toque para retomar' : 'animação automática · mova o cursor'}</span>
     </div>

@@ -46,38 +46,71 @@ export const papers = [
 ];
 
 export const spotifyProfile = 'https://open.spotify.com/user/31nehsiaqpbxu5wkyedxfudnewum';
-export const playlists = [
-  { id: '4JabFhTYjkve0tGDhpEuiJ', name: 'Vibez diferente' },
-  { id: '2n4DgqprA3Bucr3rUGKslx', name: 'Gym' },
-  { id: '3MiZHMMAEENx6Hkc4WOPXo', name: 'Latinas bebe' },
-  { id: '2UXpAenvLTpxeYWxKhiEhQ', name: 'You had me at hello' },
-];
+export const instagram = 'https://www.instagram.com/marcusqueroll/';
 
-// Cada interesse pode ganhar um vídeo do avatar: coloque o arquivo em
-// public/assets/hobbies/ e preencha video/poster com o nome dele.
+// Cada interesse tem um vídeo do avatar em public/assets/hobbies/.
+// Para trocar, substitua o MP4 (720p, curto, sem áudio) e o JPG do primeiro quadro.
 export const interests = [
   {
     id: 'psicologia', label: 'Psicologia', kicker: 'PAIXÃO',
     title: 'Entender as pessoas.',
     text: 'Sou apaixonado por psicologia: como pensamos, decidimos e criamos hábitos. Essa curiosidade aparece no que construo, do Subchefe à pesquisa em saúde.',
-    tags: ['comportamento', 'hábitos', 'decisões'],
+    video: 'hobbies/psicologia.mp4', poster: 'hobbies/psicologia-poster.jpg',
   },
   {
     id: 'pesca', label: 'Pesca', kicker: 'HOBBY',
     title: 'Linha na água, cabeça no lugar.',
     text: 'Pescar é o meu jeito de desacelerar. Paciência, silêncio e tempo para pensar.',
-    video: 'hobbies/pesca.mp4', poster: 'hobbies/pesca-poster.jpg',
+    video: 'hobbies/pesca.mp4', poster: 'hobbies/pesca-poster.jpg', focus: '35% center',
   },
   {
     id: 'esportes', label: 'Esportes', kicker: 'HOBBY',
     title: 'Bola no pé e time em campo.',
     text: 'Futebol e esporte fazem parte da rotina: disciplina, trabalho em equipe e um pouco de competição.',
-    soon: 'Vídeo do avatar em campo chegando em breve.',
+    video: 'hobbies/esportes.mp4', poster: 'hobbies/esportes-poster.jpg',
   },
   {
     id: 'musica', label: 'Música', kicker: 'TRILHA SONORA',
-    title: 'O que toca enquanto eu construo.',
-    text: 'Programando, estudando ou treinando, sempre tem uma playlist rolando. Estas são as minhas, direto do Spotify.',
-    spotify: true,
+    title: 'O que toca enquanto eu programo.',
+    text: 'Programando, estudando ou treinando, sempre tem uma playlist rolando. Esta é uma das minhas.',
+    video: 'hobbies/musica.mp4', poster: 'hobbies/musica-poster.jpg',
+    playlist: { id: '4JabFhTYjkve0tGDhpEuiJ', name: 'Vibez diferente' },
+  },
+];
+
+export const orcid = 'https://orcid.org/0009-0005-9192-0121';
+export const graduationProgress = 50;
+
+export const aboutText = 'Sou o Marcus Querol, natural de Uruguaiana, tenho 20 anos e estou na metade da graduação em Engenharia de Software na UNIPAMPA. Me interesso por inteligência artificial e por psicologia, e busco unir as duas: tecnologia que ajuda a criar hábitos melhores e que nos deixa mais conscientes do uso que fazemos dela.';
+
+export const aboutFacts = [
+  { id: 'origem', label: 'Origem', value: 'Uruguaiana, RS · hoje em Alegrete' },
+  { id: 'curso', label: 'Curso', value: 'Engenharia de Software · UNIPAMPA' },
+  { id: 'interesses', label: 'Interesses', value: 'Inteligência artificial × psicologia: hábitos e uso consciente da tecnologia' },
+  { id: 'bolsas', label: 'Bolsista', value: 'PET-Saúde e-Cidadania · Apoio à Gestão Acadêmica' },
+];
+
+export const journey = [
+  {
+    id: 'pet-saude', date: 'AGO 2025 — ATUAL', role: 'Bolsista',
+    title: 'PET-Saúde e-Cidadania', org: 'PET-Saúde: Informação e Saúde Digital · Pampa Conectado',
+    context: 'O PET-Saúde (Programa de Educação pelo Trabalho para a Saúde), do Ministério da Saúde com o MEC, aproxima universidade, serviços do SUS e comunidade. Na edição Informação e Saúde Digital, a UNIPAMPA coordena o projeto Pampa Conectado, com as secretarias de saúde de Alegrete, Bagé, Itaqui, Jaguari e Uruguaiana.',
+    group: 'O e-Cidadania trabalha entre tecnologia e serviços de saúde: letramento digital em saúde, saúde da pessoa idosa, visitas técnicas a unidades de Alegrete e Uruguaiana, cursos para cuidadores e profissionais do SUS e recursos educacionais abertos.',
+    work: 'Levo a engenharia de software para o grupo: levantamento de requisitos com as equipes, prototipação de apps como o App SAE e pesquisa publicada. Também participei do VER-SUS em Uruguaiana.',
+    tags: ['Saúde digital', 'Requisitos', 'App SAE', 'VER-SUS'],
+  },
+  {
+    id: 'gestao', date: 'ABR 2026 — ATUAL', role: 'Bolsista',
+    title: 'Apoio à Gestão Acadêmica', org: 'UNIPAMPA · Pró-Reitoria de Graduação (PROGRAD)',
+    context: 'Bolsa da PROGRAD que apoia coordenações acadêmicas e de curso para aprimorar processos, qualificar o ingresso de novos alunos e combater a evasão e a retenção.',
+    work: 'Automatizo processos acadêmicos com Python, Playwright e agentes de IA, tirando tarefas repetitivas das mãos da equipe.',
+    tags: ['Python', 'Playwright', 'Automação', 'Agentes de IA'],
+  },
+  {
+    id: 'graduacao', date: '2025 — 2028 · PREVISÃO', role: 'Graduação',
+    title: 'Engenharia de Software', org: 'Universidade Federal do Pampa · Campus Alegrete',
+    context: 'Formação conectada à pesquisa e à construção de software aplicado, com publicações no SBSC e no ERBD 2026.',
+    progress: graduationProgress,
+    tags: ['Pesquisa', 'Saúde digital', 'Dados'],
   },
 ];

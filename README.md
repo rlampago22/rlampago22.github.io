@@ -19,10 +19,14 @@ Versão React do portfólio fornecido, com composição inspirada no hero 3D do 
 - `public/assets/`: retrato otimizado em WebP e ícones SVG.
 - `src/components/InteractiveAvatar.*`: inclinação com suavização, reação ao clique/toque e pausa.
 - `src/components/KineticTitle.*`: brilho e textura de código recortados dentro das letras.
-- `src/components/Interests.*`: seção “Fora do código” (psicologia, pesca, esportes e música). Cada interesse pode ter um vídeo do avatar: coloque o MP4 (H.264, curto, sem áudio) e um quadro em JPG em `public/assets/hobbies/` e preencha `video`/`poster` no item em `src/data.js`. A música usa o player incorporado do Spotify com as playlists públicas de Marcus.
+- `src/components/AboutIntro.*`: “Sobre mim” logo após o hero, com texto que se acende palavra por palavra na rolagem e a ficha `sobre-mim.md`. Texto e ficha ficam em `src/data.js` (`aboutText`, `aboutFacts`, `graduationProgress`).
+- `src/components/Journey.*`: trajetória com contexto e atuação no PET-Saúde e-Cidadania, no Apoio à Gestão Acadêmica e na graduação (`journey` em `src/data.js`).
+- `src/components/Interests.*`: seção “Fora do código” (psicologia, pesca, esportes e música), cada uma com um vídeo do avatar em `public/assets/hobbies/` (MP4 720p sem áudio + JPG do primeiro quadro). A música também mostra o player compacto do Spotify com a playlist Vibez diferente.
 - `src/components/SubchefeDemo.*`: apresentação do aplicativo e demonstração em um iframe em formato de celular.
 - `public/demos/subchefe/`: interface web real do app, preparada a partir de uma cópia isolada, com registros fictícios em memória.
 - `scripts/build-subchefe-demo.mjs`: reconstrói a demo a partir de `C:/Users/Querol/Documents/App_regulação`. Execute `npm run demo:build` antes de `npm run export` quando o app original mudar.
+
+Dentro do portfólio, a demo do Subchefe é desenhada com 390 px de largura (tamanho de celular) e reduzida para caber na moldura; `scripts/subchefe-bridge.js` esconde as barras de rolagem, cria o espaço inferior de celular e dá altura suficiente aos rótulos das abas. `npm run demo:build` já injeta esse script.
 
 O painel de IA e o terminal são demonstrações locais. O formulário prepara uma mensagem no WhatsApp; o visitante revisa e envia no próprio aplicativo. A cópia de e-mail só confirma sucesso após a Clipboard API responder.
 
@@ -36,8 +40,8 @@ Foram mantidos os contatos, repositórios, formação, vínculos e publicações
 
 ## Próximos ajustes sugeridos
 
-1. Adicionar os links reais de LinkedIn, Currículo Lattes e ORCID.
-2. Gravar os vídeos do avatar para Esportes e Psicologia e adicioná-los em `src/data.js`.
+1. Adicionar o link real do LinkedIn.
+2. Adicionar o link do Currículo Lattes (o ORCID já está no contato).
 3. Adicionar capturas reais, demonstrações e resultados verificáveis nas pastas de projetos; completar o DOI/link do capítulo Springer.
 
 ## Referências e créditos

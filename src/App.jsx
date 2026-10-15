@@ -1,13 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 import { MotionConfig } from 'motion/react';
-import { ArrowUpRight, ArrowDown, ArrowRight, Github, Mail, Copy, Check, X, Menu, Pause, Play, MapPin, Terminal, Code2, GraduationCap, ExternalLink, Sparkles, Plus, Minus } from 'lucide-react';
+import { ArrowUpRight, ArrowDown, ArrowRight, Github, Instagram, Mail, Copy, Check, X, Menu, Pause, Play, MapPin, Terminal, Code2, ExternalLink, Sparkles, Plus, Minus } from 'lucide-react';
 import DecryptedText from './components/DecryptedText';
 import Folder from './components/Folder';
 import InteractiveAvatar from './components/InteractiveAvatar';
 import KineticTitle from './components/KineticTitle';
 import SubchefeDemo from './components/SubchefeDemo';
 import Interests from './components/Interests';
-import { projects, papers, email, github } from './data';
+import AboutIntro from './components/AboutIntro';
+import Journey from './components/Journey';
+import { projects, papers, email, github, instagram, orcid } from './data';
 
 const asset = (name) => globalThis.__PORTFOLIO_ASSETS__?.[name] || `${import.meta.env.BASE_URL}assets/${name}`;
 const models = [
@@ -90,7 +92,7 @@ function MiniTerminal() {
   useEffect(() => { if (outputRef.current) outputRef.current.scrollTop = outputRef.current.scrollHeight; }, [history]);
   const commands = {
     help: 'Comandos: whoami · projetos · pesquisa · ia · stack · contato · clear',
-    whoami: 'Marcus Querol Jr. · Engenharia de Software na UNIPAMPA, Alegrete/RS. Pesquisa em Saúde Digital e ferramentas para agentes de IA.',
+    whoami: 'Marcus Querol Jr. · 20 anos, natural de Uruguaiana. Engenharia de Software na UNIPAMPA, Alegrete/RS. IA, psicologia, Saúde Digital e ferramentas para agentes de IA.',
     projetos: projects.map(project => `${project.title} → ${github}/${project.id}`).join('\n'),
     pesquisa: 'App SAE (SBSC 2026) · Sistemas de recomendação (ERBD 2026) · Engenharia de Software e Saúde Digital (Springer). Links na seção Pesquisa.',
     ia: 'Orquestração entre Codex, Claude, Gemini e Antigravity. Contexto preservado, decisões registradas e continuidade entre ferramentas.',
@@ -135,7 +137,7 @@ export default function App() {
     <header className="site-header">
       <a href="#inicio" className="brand" aria-label="Marcus Querol, início"><span className="brand-symbol">m.</span><span>marcus querol<span className="brand-dot">.</span></span></a>
       <nav className={mobileMenu ? 'navigation is-open' : 'navigation'} aria-label="Principal">
-        {[['Projetos', 'projetos'], ['Demo do app', 'subchefe'], ['Sobre mim', 'sobre'], ['Interesses', 'interesses'], ['Pesquisa', 'pesquisa']].map(([title, id]) => <a href={`#${id}`} key={id} onClick={() => setMobileMenu(false)}>{title}</a>)}
+        {[['Sobre mim', 'sobre'], ['Projetos', 'projetos'], ['Demo', 'subchefe'], ['Trajetória', 'trajetoria'], ['Interesses', 'interesses'], ['Pesquisa', 'pesquisa']].map(([title, id]) => <a href={`#${id}`} key={id} onClick={() => setMobileMenu(false)}>{title}</a>)}
         <a className="nav-contact" href="#contato" onClick={() => setMobileMenu(false)}>Vamos conversar <ArrowUpRight size={15} /></a>
       </nav>
       <div className="header-controls"><button className="icon-button motion-toggle" onClick={toggleMotion} aria-label={motionPaused ? 'Ativar animações' : 'Pausar animações'} aria-pressed={motionPaused} title={motionPaused ? 'Ativar animações' : 'Pausar animações'}>{paused ? <Play size={15} /> : <Pause size={15} />}</button><button className="icon-button mobile-menu" onClick={() => setMobileMenu(value => !value)} aria-label={mobileMenu ? 'Fechar menu' : 'Abrir menu'} aria-expanded={mobileMenu}>{mobileMenu ? <X size={21} /> : <Menu size={21} />}</button></div>
@@ -157,6 +159,8 @@ export default function App() {
         <div className="expertise-strip"><span>ENGENHARIA DE SOFTWARE</span><i>✳</i><span>AGENTES DE IA</span><i>✳</i><span>OPEN SOURCE</span><i>✳</i><span>SAÚDE DIGITAL</span><i>✳</i><span>IDEIAS EM MOVIMENTO</span></div>
       </section>
 
+      <AboutIntro paused={paused} />
+
       <section id="projetos" className="projects-section section-wrap" aria-labelledby="projects-title">
         <div className="section-heading"><div><SectionLabel>DO CONTEXTO À CONSTRUÇÃO</SectionLabel><h2 id="projects-title"><DecryptedText text="Ideias fora da pasta." animateOn="view" speed={35} maxIterations={12} pauseMotion={paused} encryptedClassName="scrambled" /></h2></div><p>Ferramentas que resolvem problemas reais.<br /> <span>Abra uma pasta e explore o que tem dentro.</span></p></div>
         <div className="projects-toolbar"><div className="filter-tabs" aria-label="Filtrar projetos">{['Todos', 'Agentes de IA', 'Aplicações'].map(item => <button aria-pressed={filter === item} className={filter === item ? 'active' : ''} key={item} onClick={() => setFilter(item)}>{item}{item === 'Todos' && <span>{String(projects.length).padStart(2, '0')}</span>}</button>)}</div><span className="folder-hint">Um clique abre novas possibilidades <ArrowDown size={14} /></span></div>
@@ -170,20 +174,13 @@ export default function App() {
       <SubchefeDemo />
       <Playground paused={paused} />
 
-      <section id="sobre" className="about-section section-wrap" aria-labelledby="about-title">
-        <div className="about-copy"><SectionLabel>O HUMANO POR TRÁS DO CÓDIGO</SectionLabel><h2 id="about-title">Curiosidade como<br /> ponto de partida<span>.</span></h2><p>Sou Marcus, estudante de <strong>Engenharia de Software na UNIPAMPA</strong>, em Alegrete. Gosto de entender um problema, conectar as peças e construir algo que faça diferença na rotina de alguém.</p><p>Hoje, divido meu tempo entre automação, ferramentas open-source para agentes de IA e pesquisa em Saúde Digital. Da primeira pergunta ao software funcionando, é o processo de construir que me move.</p><a href="#contato" className="text-link">Vamos trocar uma ideia <ArrowUpRight size={17} /></a><div className="about-signature">Marcus Querol <span>estudante · pesquisador · desenvolvedor</span></div></div>
-        <div className="journey"><div className="journey-title"><GraduationCap size={22} /><span>Aprender. Construir. Compartilhar.</span></div><ol>
-          <li><span className="journey-date">ABR 2026 — ATUAL</span><h3>Apoio à Gestão Acadêmica</h3><span>UNIPAMPA · PROGRAD</span><p>Automação de processos acadêmicos com Python, Playwright e agentes de IA.</p></li>
-          <li><span className="journey-date">AGO 2025 — ATUAL</span><h3>Pesquisa em Saúde Digital</h3><span>PET-Saúde · Informação e Saúde Digital</span><p>Requisitos, visitas de campo e prototipação de soluções como o App SAE.</p></li>
-          <li><span className="journey-date">2025 — 2028 · PREVISÃO</span><h3>Engenharia de Software</h3><span>Universidade Federal do Pampa</span><p>Formação conectada à pesquisa e à construção de software aplicado.</p></li>
-        </ol></div>
-      </section>
+      <Journey />
 
       <Interests asset={asset} paused={paused} />
 
       <section id="pesquisa" className="research-section section-wrap" aria-labelledby="research-title"><div className="section-heading"><div><SectionLabel>CONHECIMENTO QUE CIRCULA</SectionLabel><h2 id="research-title">Da pergunta à publicação.</h2></div><p>Pesquisa em software, dados<br /> e cuidado com as pessoas.</p></div><div className="paper-list">{papers.map(paper => <article className="paper" key={paper.title}><div className="paper-meta"><span>{paper.label}</span><small>{paper.role}</small></div><div className="paper-title"><h3>{paper.url ? <a href={paper.url} target="_blank" rel="noreferrer">{paper.title}</a> : paper.title}</h3><span>{paper.topic}</span></div>{paper.url ? <a className="paper-link" href={paper.url} target="_blank" rel="noreferrer" aria-label={`Ler artigo: ${paper.title}`}><ArrowUpRight size={23} /></a> : <span className="paper-publisher">Capítulo</span>}</article>)}</div><div className="talk-note"><Sparkles size={18} /><p>Também compartilho ideias em palestras, como <strong>“A Inteligência Artificial no Meio Acadêmico”</strong>, na UNIPAMPA.</p></div><MiniTerminal /></section>
 
-      <section id="contato" className="contact-section section-wrap" aria-labelledby="contact-title"><div className="contact-copy"><SectionLabel>UMA CONVERSA PODE SER O COMEÇO</SectionLabel><h2 id="contact-title">Tem uma ideia?<br /> Vamos <em>construir.</em><ArrowUpRight /></h2><p>Projetos, oportunidades, pesquisa ou uma boa troca sobre tecnologia. Meu contato está logo aqui.</p><div className="contact-links"><a href={`mailto:${email}`}>{email} <ArrowUpRight size={18} /></a><button className="icon-button" onClick={copyEmail} aria-label="Copiar e-mail">{copyStatus === 'E-mail copiado!' ? <Check size={17} /> : <Copy size={17} />}</button></div><span className="copy-status" role="status">{copyStatus}</span><a className="text-link" href={github} target="_blank" rel="noreferrer"><Github size={17} /> @rlampago22 <ArrowUpRight size={15} /></a></div><form className="contact-form" onSubmit={event => { event.preventDefault(); const text = encodeURIComponent(`Olá, Marcus! Sou ${contactName.trim()}. ${contactMessage.trim()}`); window.open(`https://wa.me/5553999049927?text=${text}`, '_blank', 'noopener,noreferrer'); }}><label htmlFor="contact-name">Como posso te chamar?</label><input id="contact-name" name="name" autoComplete="name" required maxLength={100} placeholder="Seu nome" value={contactName} onChange={event => setContactName(event.target.value)} /><label htmlFor="contact-message">O que vamos tirar do papel?</label><textarea id="contact-message" name="message" required rows={3} maxLength={2000} placeholder="Me conte um pouco da sua ideia…" value={contactMessage} onChange={event => setContactMessage(event.target.value)} /><button className="button primary" type="submit">Continuar no WhatsApp <ArrowUpRight size={17} /></button><span>Você revisa a mensagem antes de enviar.</span></form></section>
+      <section id="contato" className="contact-section section-wrap" aria-labelledby="contact-title"><div className="contact-copy"><SectionLabel>UMA CONVERSA PODE SER O COMEÇO</SectionLabel><h2 id="contact-title">Tem uma ideia?<br /> Vamos <em>construir.</em><ArrowUpRight /></h2><p>Projetos, oportunidades, pesquisa ou uma boa troca sobre tecnologia. Meu contato está logo aqui.</p><div className="contact-links"><a href={`mailto:${email}`}>{email} <ArrowUpRight size={18} /></a><button className="icon-button" onClick={copyEmail} aria-label="Copiar e-mail">{copyStatus === 'E-mail copiado!' ? <Check size={17} /> : <Copy size={17} />}</button></div><span className="copy-status" role="status">{copyStatus}</span><div className="contact-socials"><a className="text-link" href={github} target="_blank" rel="noreferrer"><Github size={17} /> @rlampago22 <ArrowUpRight size={15} /></a><a className="text-link" href={instagram} target="_blank" rel="noreferrer"><Instagram size={17} /> @marcusqueroll <ArrowUpRight size={15} /></a><a className="text-link" href={orcid} target="_blank" rel="noreferrer">ORCID <ArrowUpRight size={15} /></a></div></div><form className="contact-form" onSubmit={event => { event.preventDefault(); const text = encodeURIComponent(`Olá, Marcus! Sou ${contactName.trim()}. ${contactMessage.trim()}`); window.open(`https://wa.me/5553999049927?text=${text}`, '_blank', 'noopener,noreferrer'); }}><label htmlFor="contact-name">Como posso te chamar?</label><input id="contact-name" name="name" autoComplete="name" required maxLength={100} placeholder="Seu nome" value={contactName} onChange={event => setContactName(event.target.value)} /><label htmlFor="contact-message">O que vamos tirar do papel?</label><textarea id="contact-message" name="message" required rows={3} maxLength={2000} placeholder="Me conte um pouco da sua ideia…" value={contactMessage} onChange={event => setContactMessage(event.target.value)} /><button className="button primary" type="submit">Continuar no WhatsApp <ArrowUpRight size={17} /></button><span>Você revisa a mensagem antes de enviar.</span></form></section>
     </main>
     <footer className="site-footer"><a className="brand" href="#inicio"><span className="brand-symbol">m.</span><span>Ideias em movimento.</span></a><span>© {new Date().getFullYear()} Marcus Querol</span><a href="#inicio">De volta ao topo <ArrowUpRight size={15} /></a></footer>
     <ProjectDialog project={selectedProject} onClose={() => setSelectedProject(null)} />

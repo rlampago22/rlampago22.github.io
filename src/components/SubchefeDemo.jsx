@@ -4,6 +4,8 @@ import './SubchefeDemo.css';
 
 const screens = [{ name: 'Hoje', route: '/' }, { name: 'Check-in', route: '/checkin' }, { name: 'Progresso', route: '/progresso' }];
 const demoUrl = `${import.meta.env.BASE_URL}demos/subchefe/index.html`;
+// The app is laid out for phones, so the frame renders it at a common phone width and scales it to fit.
+const phoneWidth = 390;
 
 export default function SubchefeDemo() {
   const [started, setStarted] = useState(false);
@@ -11,6 +13,7 @@ export default function SubchefeDemo() {
   const [generation, setGeneration] = useState(0);
   const [selectedScreen, setSelectedScreen] = useState('/');
   const frameRef = useRef(null);
+  const screenRef = useRef(null);
   const isLocalFile = window.location.protocol === 'file:';
   useEffect(() => {
     const receive = event => {
@@ -23,6 +26,12 @@ export default function SubchefeDemo() {
     };
     window.addEventListener('message', receive);
     return () => window.removeEventListener('message', receive);
+  }, []);
+  useEffect(() => {
+    const screen = screenRef.current;
+    const observer = new ResizeObserver(() => screen.style.setProperty('--demo-scale', screen.clientWidth / phoneWidth));
+    observer.observe(screen);
+    return () => observer.disconnect();
   }, []);
   function navigate(route) {
     setSelectedScreen(route);
@@ -46,7 +55,7 @@ export default function SubchefeDemo() {
     </div>
     <div className="subchefe-demo-area">
       <div className="demo-screen-tabs" aria-label="Atalhos da demonstração">{screens.map(screen => <button key={screen.route} disabled={!ready} aria-pressed={selectedScreen === screen.route} onClick={() => navigate(screen.route)}>{screen.name}</button>)}</div>
-      <div className="demo-phone"><div className="demo-phone-top"><span>Subchefe</span><span>DEMO</span></div><div className="demo-phone-screen">
+      <div className="demo-phone"><div className="demo-phone-top"><span>Subchefe</span><span>DEMO</span></div><div className="demo-phone-screen" ref={screenRef}>
         {!started ? <div className="demo-launch"><span className="demo-app-icon">S<span>↗</span></span><h3>Pequenos passos.<br />Uma rotina possível.</h3><p>Explore o app, faça um check-in e veja os gráficos com dados de exemplo.</p>{isLocalFile ? <p className="demo-file-notice">Para usar a demonstração, abra o portfólio pela prévia local ou por uma hospedagem web.</p> : <button className="button primary" onClick={() => setStarted(true)}><Play size={15} /> Experimentar o app <ArrowRight size={15} /></button>}<span className="demo-local-label"><ShieldCheck size={13} /> Nenhuma conta ou chave de API</span></div> : <><iframe ref={frameRef} key={generation} src={demoUrl} title="Demonstração interativa do Subchefe com dados fictícios" sandbox="allow-scripts allow-same-origin allow-modals" loading="lazy" /><span className={`demo-loading ${ready ? 'is-ready' : ''}`} role="status">{ready ? 'Demonstração pronta' : 'Abrindo demonstração…'}</span></>}
       </div><div className="demo-phone-bottom" /></div>
       <div className="demo-bottom-controls"><span>Interface do app · dados fictícios</span>{started ? <button onClick={reset}><RotateCcw size={13} /> Reiniciar demo</button> : <span><Smartphone size={13} /> Toque para explorar</span>}</div>
