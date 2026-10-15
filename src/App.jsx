@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, MotionConfig } from 'motion/react';
-import { ArrowUpRight, ArrowDown, ArrowRight, Github, Instagram, Mail, Copy, Check, X, Menu, Pause, Play, MapPin, Terminal, Code2, ExternalLink, Sparkles, Plus, Minus } from 'lucide-react';
+import { ArrowUpRight, ArrowDown, ArrowRight, Github, Instagram, Mail, MessageCircle, Copy, Check, X, Menu, Pause, Play, MapPin, Terminal, Code2, ExternalLink, Sparkles, Plus, Minus } from 'lucide-react';
 import DecryptedText from './components/DecryptedText';
 import Folder from './components/Folder';
 import InteractiveAvatar from './components/InteractiveAvatar';
@@ -17,6 +17,16 @@ const models = [
   { id: 'openai', name: 'ChatGPT / Codex', role: 'Desenvolver & refinar', color: '#76aa98', code: ['// Uma etapa do meu fluxo de trabalho', 'const task = context.nextStep;', 'const change = implement(task);', 'review(change);', 'exportContext({ decisions, nextSteps });'], description: 'Implementação, revisão de código e registro das decisões para a próxima etapa.' },
   { id: 'claude', name: 'Claude', role: 'Estruturar & revisar', color: '#c18b72', code: ['# Contexto antes de código', 'read(project_requirements)', 'review(architecture)', 'validate(test_scenarios)', 'handoff(decisions, open_questions)'], description: 'Discussão de arquitetura, leitura de requisitos e revisão de cenários de teste.' },
   { id: 'gemini', name: 'Gemini', role: 'Explorar & conectar', color: '#91a6d4', code: ['# A próxima ferramenta recebe o essencial', 'context = load("handoff.md")', 'explore(context.references)', 'document(context.findings)', 'continue_from(context.next_step)'], description: 'Exploração de referências, documentação e continuidade do contexto de trabalho.' },
+];
+
+// Shortcuts to Marcus's profiles, shown at the bottom of the hero.
+const socials = [
+  { label: 'GitHub', href: github, icon: Github },
+  { label: 'Instagram', href: instagram, icon: Instagram },
+  { label: 'Currículo Lattes', href: lattes, text: 'Lattes' },
+  { label: 'ORCID', href: orcid, text: 'ORCID' },
+  { label: 'E-mail', href: `mailto:${email}`, icon: Mail },
+  { label: 'WhatsApp', href: 'https://wa.me/5553999357192', icon: MessageCircle },
 ];
 
 function Logo({ name, ...props }) { return <img src={asset(`${name}.svg`)} alt="" {...props} />; }
@@ -157,7 +167,7 @@ export default function App() {
           <div className="hero-note"><span className="note-mark">*</span><p>Conecto ferramentas.<br /> Transformo ideias<br /> em software útil.</p><a href="#sobre">Um pouco sobre mim <ArrowUpRight size={15} /></a></div>
           <span className="code-fragment fragment-one" aria-hidden="true">&lt;ideia /&gt;</span><span className="code-fragment fragment-two" aria-hidden="true">context.connect()</span>
         </div>
-        <div className="hero-bottom"><div className="hero-location"><MapPin size={15} /><span>Alegrete, RS · Brasil</span></div><a className="button primary" href="#projetos">Explore meus projetos <ArrowDown size={17} /></a><a className="hero-github" href={github} target="_blank" rel="noreferrer"><Github size={17} /> Feito para compartilhar <ArrowUpRight size={14} /></a></div>
+        <div className="hero-bottom"><div className="hero-location"><MapPin size={15} /><span>Alegrete, RS · Brasil</span></div><a className="button primary" href="#projetos">Explore meus projetos <ArrowDown size={17} /></a><nav className="hero-github hero-socials" aria-label="Minhas redes">{socials.map(item => <a key={item.label} href={item.href} target={item.href.startsWith('mailto:') ? undefined : '_blank'} rel="noreferrer" aria-label={item.label} title={item.label} className={item.icon ? 'hero-social hero-social--icon' : 'hero-social'}>{item.icon ? <item.icon size={15} aria-hidden="true" /> : item.text}</a>)}</nav></div>
         <div className="expertise-strip"><span>ENGENHARIA DE SOFTWARE</span><i>✳</i><span>AGENTES DE IA</span><i>✳</i><span>OPEN SOURCE</span><i>✳</i><span>SAÚDE DIGITAL</span><i>✳</i><span>IDEIAS EM MOVIMENTO</span></div>
       </section>
 

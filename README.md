@@ -20,8 +20,9 @@ Versão React do portfólio fornecido, com composição inspirada no hero 3D do 
 - `src/components/InteractiveAvatar.*`: inclinação com suavização, reação ao clique/toque e pausa.
 - `src/components/KineticTitle.*`: brilho e textura de código recortados dentro das letras.
 - `src/components/Intro.*` e `src/components/PromptBar.*`: abertura com a PromptBar do React Bits, que digita “ir para o portfólio do Marcus”, envia e abre o site. Aparece uma vez por visita (sessionStorage) e pode ser pulada pelo botão, por Esc ou por um toque. A PromptBar ganhou só a opção `autoType` para a digitação automática.
-- `src/components/AboutIntro.*`: “Sobre mim” logo após o hero, com texto que se acende palavra por palavra na rolagem e a ficha `sobre-mim.md`. Texto e ficha ficam em `src/data.js` (`aboutText`, `aboutFacts`, `graduationProgress`).
+- `src/components/AboutIntro.*`: “Sobre mim” logo após o hero: título com o WarpText (efeito de vidro em WebGL), parágrafo que sobe palavra por palavra com o SplitText (GSAP) na primeira vez que aparece, e a ficha `sobre-mim.md` com a foto `public/assets/marcus-foto.jpg`. Texto e ficha ficam em `src/data.js` (`aboutText`, `aboutFacts`, `graduationProgress`).
 - `src/components/Journey.*`: trajetória com contexto e atuação no PET-Saúde e-Cidadania, no Apoio à Gestão Acadêmica e na graduação (`journey` em `src/data.js`).
+- Atalhos para GitHub, Instagram, Lattes, ORCID, e-mail e WhatsApp ficam na base do hero (`socials` em `src/App.jsx`), além do contato no fim da página.
 - `src/components/Interests.*`: seção “Fora do código” (psicologia, pesca, esportes e música), cada uma com um vídeo do avatar em `public/assets/hobbies/` (MP4 720p sem áudio + JPG do primeiro quadro). A música também mostra o player compacto do Spotify com a playlist Vibez diferente.
 - `src/components/SubchefeDemo.*`: apresentação do aplicativo e demonstração em um iframe em formato de celular.
 - `public/demos/subchefe/`: interface web real do app, preparada a partir de uma cópia isolada, com registros fictícios em memória.

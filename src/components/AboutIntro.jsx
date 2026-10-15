@@ -1,21 +1,29 @@
-import { useRef, useState } from 'react';
-import { motion, useScroll, useTransform } from 'motion/react';
+import { useState } from 'react';
+import { motion } from 'motion/react';
 import { ArrowUpRight, MapPin, GraduationCap, Brain, Sparkles, BadgeCheck, Instagram } from 'lucide-react';
 import { aboutText, aboutFacts, graduationProgress, instagram } from '../data';
 import WarpText from './WarpText';
+import SplitText from './SplitText';
 import './AboutIntro.css';
 
-function Word({ children, progress, range, paused }) {
-  const opacity = useTransform(progress, range, [0.16, 1]);
-  return <motion.span className="reveal-word" style={paused ? undefined : { opacity }}>{children}</motion.span>;
-}
-
-// Each word lights up as the paragraph scrolls through the viewport.
-function ScrollRevealText({ text, paused }) {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.85', 'end 0.5'] });
-  const words = text.split(' ');
-  return <p ref={ref} className="reveal-text">{words.map((word, index) => <Word key={index} progress={scrollYProgress} range={[index / words.length, (index + 1) / words.length]} paused={paused}>{word}{' '}</Word>)}</p>;
+// The paragraph rises in word by word the first time it scrolls into view.
+// With the site's animations paused it is shown as plain text.
+function AboutText({ text, paused }) {
+  if (paused) return <p className="reveal-text">{text}</p>;
+  return <SplitText
+    text={text}
+    tag="p"
+    className="reveal-text"
+    splitType="words"
+    delay={28}
+    duration={0.9}
+    ease="power3.out"
+    from={{ opacity: 0, y: 26 }}
+    to={{ opacity: 1, y: 0 }}
+    threshold={0.15}
+    rootMargin="-60px"
+    textAlign="left"
+  />;
 }
 
 const factIcons = { origem: MapPin, curso: GraduationCap, interesses: Brain, bolsas: BadgeCheck };
@@ -50,7 +58,7 @@ export default function AboutIntro({ paused, asset }) {
       />
     </div>
     <div className="about-intro__text">
-      <ScrollRevealText text={aboutText} paused={paused} />
+      <AboutText text={aboutText} paused={paused} />
       <div className="about-intro__links">
         <a className="text-link" href="#trajetoria">Minha trajetória <ArrowUpRight size={15} /></a>
         <a className="text-link" href={instagram} target="_blank" rel="noreferrer"><Instagram size={15} /> @marcusqueroll <ArrowUpRight size={15} /></a>
