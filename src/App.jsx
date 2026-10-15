@@ -161,7 +161,7 @@ export default function App() {
         <div className="expertise-strip"><span>ENGENHARIA DE SOFTWARE</span><i>✳</i><span>AGENTES DE IA</span><i>✳</i><span>OPEN SOURCE</span><i>✳</i><span>SAÚDE DIGITAL</span><i>✳</i><span>IDEIAS EM MOVIMENTO</span></div>
       </section>
 
-      <AboutIntro paused={paused} />
+      <AboutIntro paused={paused} asset={asset} />
 
       <section id="projetos" className="projects-section section-wrap" aria-labelledby="projects-title">
         <div className="section-heading"><div><SectionLabel>DO CONTEXTO À CONSTRUÇÃO</SectionLabel><h2 id="projects-title"><DecryptedText text="Ideias fora da pasta." animateOn="view" speed={35} maxIterations={12} pauseMotion={paused} encryptedClassName="scrambled" /></h2></div><p>Ferramentas que resolvem problemas reais.<br /> <span>Abra uma pasta e explore o que tem dentro.</span></p></div>
