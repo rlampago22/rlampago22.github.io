@@ -3,7 +3,7 @@ import './Landings.css';
 
 export default function Landings({ asset }) {
   return <section id="landing-pages" className="landings-section section-wrap" aria-labelledby="landings-title">
-    <div className="section-heading"><div><span className="section-label">LANDING PAGES</span><h2 id="landings-title">Ideias com vitrine<span className="landings-accent">.</span></h2></div><p>Estudos de landing pages criados com IA,<br /> <span>do briefing ao layout final.</span></p></div>
+    <div className="section-heading"><div><span className="section-label">LANDING PAGES</span><h2 id="landings-title">Ideias com vitrine<span className="landings-accent">.</span></h2></div><p>Demonstrações de landing pages criadas com IA,<br /> <span>do briefing ao layout final.</span></p></div>
     <div className="landings-grid">{landings.map(item => <article key={item.id} className="landing-card">
       <figure className="landing-shot">
         <div className="landing-shot__bar" aria-hidden="true"><span className="traffic-lights"><i /><i /><i /></span><span className="landing-shot__url">{item.domain}</span></div>
