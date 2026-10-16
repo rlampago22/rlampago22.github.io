@@ -37,7 +37,6 @@ export default function AmbientBackground({ paused, theme }) {
   useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas.getContext('2d');
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     let width = 0, height = 0, frame = 0, last = 0, running = false, nextPulse = 0;
     let colors = readColors(), dark = false;
     let streams = [], nodes = [], pulses = [];
@@ -55,7 +54,7 @@ export default function AmbientBackground({ paused, theme }) {
         x: (Math.floor(Math.random() * columns) + 0.5) * size * 1.7,
         text: pick(snippets),
         length: Math.floor(random(9, 22)),
-        speed: random(28, 70),
+        speed: random(45, 110),
         head: fromTop ? -random(0, height * 0.6) : random(0, height),
         scramble: 0
       });
@@ -64,7 +63,7 @@ export default function AmbientBackground({ paused, theme }) {
 
     function spawnNode() {
       const angle = Math.random() * Math.PI * 2;
-      const speed = random(4, 12);
+      const speed = random(10, 22);
       return { x: Math.random() * width, y: Math.random() * height, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, r: random(1.1, 2.3), energy: 0 };
     }
 
@@ -117,7 +116,7 @@ export default function AmbientBackground({ paused, theme }) {
           if (distance < 180 && distance > 30) { node.vx += (dx / distance) * 6 * dt; node.vy += (dy / distance) * 6 * dt; }
         }
         const speed = Math.hypot(node.vx, node.vy);
-        if (speed > 16) { node.vx *= 16 / speed; node.vy *= 16 / speed; }
+        if (speed > 28) { node.vx *= 28 / speed; node.vy *= 28 / speed; }
         node.x += node.vx * dt;
         node.y += node.vy * dt - drift;
         node.energy = Math.max(0, node.energy - dt * 1.4);
@@ -126,7 +125,7 @@ export default function AmbientBackground({ paused, theme }) {
       });
 
       nextPulse -= dt;
-      if (nextPulse <= 0) { fire(Math.floor(Math.random() * nodes.length)); nextPulse = random(0.5, 1.3); }
+      if (nextPulse <= 0) { fire(Math.floor(Math.random() * nodes.length)); nextPulse = random(0.3, 0.8); }
       pulses = pulses.filter(pulse => {
         pulse.t += pulse.speed * dt;
         if (pulse.t < 1) return true;
@@ -231,7 +230,7 @@ export default function AmbientBackground({ paused, theme }) {
     }
 
     function start() {
-      if (running || engine.current.paused || reducedMotion.matches || document.hidden) return;
+      if (running || engine.current.paused || document.hidden) return;
       running = true; last = 0; lastScroll = window.scrollY;
       frame = requestAnimationFrame(loop);
     }
@@ -249,7 +248,7 @@ export default function AmbientBackground({ paused, theme }) {
         .sort((a, b) => a.distance - b.distance).slice(0, 3)
         .forEach(({ index }) => { nodes[index].energy = 1; fire(index); fire(index); });
     };
-    const onVisibility = () => (document.hidden || reducedMotion.matches ? stop() : start());
+    const onVisibility = () => (document.hidden ? stop() : start());
     const onResize = () => { resize(); if (!running) draw(); };
 
     engine.current = {
@@ -264,7 +263,6 @@ export default function AmbientBackground({ paused, theme }) {
     window.addEventListener('pointerdown', onPointerDown, { passive: true });
     document.documentElement.addEventListener('pointerleave', onPointerLeave);
     document.addEventListener('visibilitychange', onVisibility);
-    reducedMotion.addEventListener('change', onVisibility);
     return () => {
       stop();
       window.removeEventListener('resize', onResize);
@@ -272,7 +270,6 @@ export default function AmbientBackground({ paused, theme }) {
       window.removeEventListener('pointerdown', onPointerDown);
       document.documentElement.removeEventListener('pointerleave', onPointerLeave);
       document.removeEventListener('visibilitychange', onVisibility);
-      reducedMotion.removeEventListener('change', onVisibility);
       engine.current = null;
     };
   }, []);

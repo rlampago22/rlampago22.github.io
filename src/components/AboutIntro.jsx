@@ -34,7 +34,7 @@ function AboutPhoto({ src }) {
   return <span className="about-file__avatar">{failed ? <span aria-hidden="true">MQ</span> : <img src={src} alt="Foto de Marcus Querol" width="96" height="96" onError={() => setFailed(true)} />}</span>;
 }
 
-export default function AboutIntro({ paused, asset }) {
+export default function AboutIntro({ paused, asset, theme }) {
   return <section id="sobre" className="about-intro section-wrap" aria-labelledby="about-intro-title">
     <div className="about-intro__head">
       <span className="section-label">O HUMANO POR TRÁS DO CÓDIGO</span>
@@ -42,7 +42,7 @@ export default function AboutIntro({ paused, asset }) {
       <WarpText
         className="about-intro__warp"
         text={'Curiosidade como\nponto de partida.'}
-        color="#29262d"
+        color={theme === 'dark' ? '#e6e3e9' : '#29262d'}
         fontFamily="'Space Grotesk', sans-serif"
         fontWeight={500}
         fontSize="clamp(2.6rem, 7.4vw, 6.6rem)"
