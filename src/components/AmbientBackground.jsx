@@ -94,7 +94,9 @@ export default function AmbientBackground({ paused, theme }) {
     // New fragments appear where they overlap the others the least, then type themselves out.
     function spawnFragment(fragment = {}, initial = false) {
       const index = Math.floor(Math.random() * tokenized.length);
-      Object.assign(fragment, { lines: tokenized[index], layer: Math.floor(random(0, 3)), age: 0, typed: initial ? 9999 : 0, typeSpeed: random(28, 48) });
+      // Only a couple of fragments sit in the near, brightest layer at once, so every load looks about as busy.
+      const nearCount = fragments.filter(other => other !== fragment && other.lines && other.layer === 2).length;
+      Object.assign(fragment, { lines: tokenized[index], layer: Math.floor(random(0, nearCount >= 2 ? 2 : 3)), age: 0, typed: initial ? 9999 : 0, typeSpeed: random(28, 48) });
       fragment.total = fragment.lines.reduce((sum, line) => sum + line.length + 1, 0);
       measure(fragment);
       let best = null, bestScore = -1;
@@ -334,8 +336,8 @@ export default function AmbientBackground({ paused, theme }) {
 
     function draw() {
       context.clearRect(0, 0, width, height);
-      // Light ink on the dark page stands out more than dark ink on the light one, so it is toned down to keep text readable.
-      const strength = dark ? 0.7 : 1.25;
+      // The dark page carries a strong background well; on the light page the same ink reads as smudges, so it stays softer.
+      const strength = dark ? 0.7 : 0.75;
       drawCode(strength);
       drawNeurons(strength);
       setAlpha(1);
