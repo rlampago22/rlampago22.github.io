@@ -49,8 +49,9 @@ function relight(rgba, lightness, chroma = 1) {
   return format(fromOklab([lightness, a * chroma, b * chroma]), rgba[3]);
 }
 
-// Dark ink becomes light ink: #29262d → ~#dcdadf, the muted grey → ~#b0acb5, wine text → a light rose.
-const text = (rgba, L) => L < 0.62 ? relight(rgba, 1.06 - L * 0.62) : null;
+// Dark ink becomes light ink: #29262d → ~#ebe9ee, the muted grey → ~#c4c0c9, wine text → a light rose.
+// Mid-tone labels (faint on the light page) are lifted too, so small captions stay readable on dark.
+const text = (rgba, L) => L < 0.8 ? relight(rgba, Math.max(1.1 - L * 0.55, L + 0.12)) : null;
 
 // Light surfaces become dark ones. The page paper lands on ~0.185; anything that stood out from it
 // (whiter cards or tinted chips) stands out from it again by being a bit lighter.

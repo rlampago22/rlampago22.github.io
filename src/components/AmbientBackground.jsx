@@ -334,8 +334,8 @@ export default function AmbientBackground({ paused, theme }) {
 
     function draw() {
       context.clearRect(0, 0, width, height);
-      // On the light page dark ink needs a bit more opacity to read as strongly as light ink on the dark page.
-      const strength = dark ? 1 : 1.25;
+      // Light ink on the dark page stands out more than dark ink on the light one, so it is toned down to keep text readable.
+      const strength = dark ? 0.7 : 1.25;
       if (pointer.active) {
         const glow = context.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, 320);
         glow.addColorStop(0, colors.glow);

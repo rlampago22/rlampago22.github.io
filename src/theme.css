@@ -1,6 +1,6 @@
 /* Dark theme: the per-component colors are derived by scripts/postcss-dark-theme.js; this file holds the shared tokens and hand-tuned spots. */
 :root{color-scheme:light;--ambient-node:#5c1f35;--ambient-pulse:#a1294f;--ambient-glow:#c99bb5;--ambient-text:#2f2a34;--ambient-keyword:#7a1f3f;--ambient-string:#24603f;--ambient-fn:#86440f;--ambient-comment:#5f5866}
-:root[data-theme="dark"]{color-scheme:dark;color:#e6e3e9;background:#141216;--paper:#141216;--ink:#e6e3e9;--muted:#a8a2ae;--wine:#b4566f;--line:#2e2a33;--ambient-node:#c77d97;--ambient-pulse:#f0b6c9;--ambient-glow:#7f3048;--ambient-text:#b9b3c0;--ambient-keyword:#e08aa6;--ambient-string:#8fc4a8;--ambient-fn:#e3b07a;--ambient-comment:#77707f}
+:root[data-theme="dark"]{color-scheme:dark;color:#e6e3e9;background:#141216;--paper:#141216;--ink:#e6e3e9;--muted:#c2bdc8;--wine:#e0849e;--line:#2e2a33;--ambient-node:#c77d97;--ambient-pulse:#f0b6c9;--ambient-glow:#7f3048;--ambient-text:#b9b3c0;--ambient-keyword:#e08aa6;--ambient-string:#8fc4a8;--ambient-fn:#e3b07a;--ambient-comment:#77707f}
 :root{transition:background-color .35s}
 
 :root[data-theme="dark"] ::selection{background:#5a2738;color:#fbe7ee}
@@ -10,7 +10,7 @@
 :root[data-theme="dark"] .portrait-shadow{background:#00000080}
 :root[data-theme="dark"] .button.primary{background:#8e3651}
 :root[data-theme="dark"] .button.primary:hover{background:#a3405f}
-:root[data-theme="dark"] .brand-symbol{background:#8e3651}
+:root[data-theme="dark"] .brand-symbol,:root[data-theme="dark"] .skip-link,:root[data-theme="dark"] .about-file__avatar{background:#8e3651}
 
 /* Theme switch: the new theme grows out of the toggle as a circle. */
 ::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
