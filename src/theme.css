@@ -1,6 +1,6 @@
 /* Dark theme: the per-component colors are derived by scripts/postcss-dark-theme.js; this file holds the shared tokens and hand-tuned spots. */
-:root{color-scheme:light;--ambient-code:#7f3048;--ambient-node:#7f3048;--ambient-pulse:#b1667f;--ambient-glow:#c99bb5}
-:root[data-theme="dark"]{color-scheme:dark;color:#e6e3e9;background:#141216;--paper:#141216;--ink:#e6e3e9;--muted:#a8a2ae;--wine:#b4566f;--line:#2e2a33;--ambient-code:#d68aa3;--ambient-node:#c77d97;--ambient-pulse:#f0b6c9;--ambient-glow:#7f3048}
+:root{color-scheme:light;--ambient-node:#7f3048;--ambient-pulse:#b1667f;--ambient-glow:#c99bb5;--ambient-text:#5d5864;--ambient-keyword:#7f3048;--ambient-string:#4f7d63;--ambient-fn:#a0632e;--ambient-comment:#9a94a0}
+:root[data-theme="dark"]{color-scheme:dark;color:#e6e3e9;background:#141216;--paper:#141216;--ink:#e6e3e9;--muted:#a8a2ae;--wine:#b4566f;--line:#2e2a33;--ambient-node:#c77d97;--ambient-pulse:#f0b6c9;--ambient-glow:#7f3048;--ambient-text:#b9b3c0;--ambient-keyword:#e08aa6;--ambient-string:#8fc4a8;--ambient-fn:#e3b07a;--ambient-comment:#77707f}
 :root{transition:background-color .35s}
 
 :root[data-theme="dark"] ::selection{background:#5a2738;color:#fbe7ee}
