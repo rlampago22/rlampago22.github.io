@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+<script>(() => {
+  const base = '/demos/subchefe';
+  // Inside the portfolio's phone frame the app should look like it does on a phone: no desktop
+  // scrollbars, and a bottom inset like the gesture area that keeps the tab labels off the edge.
+  if (window.parent !== window) {
+    const style = document.createElement('style');
+    style.textContent = '*{scrollbar-width:none}*::-webkit-scrollbar{display:none}html,body{background:#fff}#root{height:calc(100% - 18px)!important}' +
+      // The web tab bar keeps the native 49px height, which squeezes the labels under the icons.
+      'div:has(> div > div > a[role=tab]){height:58px!important}a[role=tab]>div[dir=auto]{flex-shrink:0}';
+    document.head.append(style);
+  }
+  if (location.pathname.endsWith('/index.html')) history.replaceState(null, '', `${base}/`);
+  const reportRoute = () => {
+    const route = location.pathname.replace(base, '') || '/';
+    window.parent.postMessage({ type: 'subchefe-demo:route', route }, location.origin);
+  };
+  for (const name of ['pushState', 'replaceState']) {
+    const original = history[name].bind(history);
+    history[name] = (...args) => { const result = original(...args); reportRoute(); return result; };
+  }
+  window.addEventListener('popstate', reportRoute);
+  window.addEventListener('load', reportRoute);
+})();
+</script>
+    <meta charset="utf-8" />
+    <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Subchefe · demonstração</title>
+    <!-- The `react-native-web` recommended style reset: https://necolas.github.io/react-native-web/docs/setup/#root-element -->
+    <style id="expo-reset">
+      /* These styles make the body full-height */
+      html,
+      body {
+        height: 100%;
+      }
+      /* These styles disable body scrolling if you are using <ScrollView> */
+      body {
+        overflow: hidden;
+      }
+      /* These styles make the root element full-height */
+      #root {
+        display: flex;
+        height: 100%;
+        flex: 1;
+      }
+    </style>
+  <link rel="icon" href="/demos/subchefe/favicon.ico"/></head>
+
+  <body>
+    <!-- Use static rendering with Expo Router to support running without JavaScript. -->
+    <noscript>
+      You need to enable JavaScript to run this app.
+    </noscript>
+    <!-- The root element for your Expo app. -->
+    <div id="root"></div>
+  <script src="/demos/subchefe/_expo/static/js/web/entry-090553e9041bc10314f5202541415621.js" defer></script>
+</body>
+</html>
