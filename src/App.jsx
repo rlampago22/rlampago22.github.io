@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { AnimatePresence, MotionConfig, motion } from 'motion/react';
 import { ArrowUpRight, ArrowDown, ArrowRight, Github, Instagram, Mail, MessageCircle, Copy, Check, X, Menu, Pause, Play, MapPin, Terminal, Code2, ExternalLink, Sparkles, Plus, Minus, Sun, Moon } from 'lucide-react';
@@ -157,7 +157,8 @@ export default function App() {
   const copyTimeout = useRef(null);
   useEffect(() => () => clearTimeout(copyTimeout.current), []);
   useEffect(() => { document.documentElement.dataset.motion = paused ? 'paused' : 'running'; }, [paused]);
-  useEffect(() => {
+  // A layout effect, so the attribute is in place before children (the animated background) read the theme's colors.
+  useLayoutEffect(() => {
     document.documentElement.dataset.theme = theme;
     document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#141216' : '#f6f5f7');
   }, [theme]);
