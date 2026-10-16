@@ -60,7 +60,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  font: 10px var(--mono);
+  font: 11px var(--mono);
   color: #7c5868;
   background: #efe3e9;
   border: 1px solid #e2d1da;
@@ -117,7 +117,7 @@
 }
 
 .about-file__head span {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--muted);
 }
 
@@ -138,7 +138,7 @@
   display: flex;
   align-items: center;
   gap: 7px;
-  font: 9px/1.8 var(--mono);
+  font: 10.5px/1.8 var(--mono);
   letter-spacing: 1px;
   color: #9a7f8d;
   text-transform: uppercase;
@@ -162,7 +162,7 @@
 .about-file__progress > div:first-child {
   display: flex;
   justify-content: space-between;
-  font: 9px var(--mono);
+  font: 10.5px var(--mono);
   letter-spacing: 1px;
   text-transform: uppercase;
   color: #9a7f8d;

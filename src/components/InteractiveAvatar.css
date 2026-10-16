@@ -130,7 +130,7 @@
 
 .interactive-avatar__hint {
   color: #877889;
-  font: 7px var(--mono);
+  font: 9px var(--mono);
   letter-spacing: .2px;
 }
 
@@ -145,8 +145,8 @@
 
 @media (max-width: 600px) {
   .interactive-avatar__controls { bottom: -18px; gap: 4px; }
-  .interactive-avatar__hint { font-size: 6px; }
-  .interactive-avatar__greeting { top: 7%; right: 8px; padding: 6px 9px; font-size: 10px; }
+  .interactive-avatar__hint { font-size: 7px; }
+  .interactive-avatar__greeting { top: 7%; right: 8px; padding: 6px 9px; font-size: 11px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

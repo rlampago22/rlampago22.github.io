@@ -5,8 +5,10 @@
 
 :root[data-theme="dark"] ::selection{background:#5a2738;color:#fbe7ee}
 :root[data-theme="dark"] .hero h1{color:#ece8ef}
-/* Small mono labels: a saturated rose shimmers on black at 10px, so they get a paler tint and a bit more weight. */
-:root[data-theme="dark"] .section-label{color:#f3c9d5;font-weight:500}
+/* Small labels and icons: rose shimmers on black at this size, so on dark they go a warm off-white and keep the rose for large accents. */
+:root[data-theme="dark"] :is(.section-label,.about-file__tab,.about-file dt,.about-file__progress b,.journey-card__date,.journey-card__role,.journey-card__block>span,.journey-card__progress b,.landing-card__kind,.toolbox-languages__head,.copy-status,.dialog-intro){color:#e4dde1;font-weight:500}
+:root[data-theme="dark"] :is(.about-file dt svg,.about-intro__links .text-link svg:first-child:not(:last-child),.interest-item svg,.journey-card__icon){color:#d6ccd1}
+:root[data-theme="dark"] .about-file__bar i{background:linear-gradient(90deg,#7f3048,#a84d69)}
 :root[data-theme="dark"] .portrait{filter:drop-shadow(0 18px 24px #00000080)}
 :root[data-theme="dark"] .portrait-halo{background:radial-gradient(ellipse,#7f304840,transparent 66%)}
 :root[data-theme="dark"] .portrait-shadow{background:#00000080}

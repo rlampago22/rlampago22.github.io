@@ -23,7 +23,7 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  font: 10px var(--mono);
+  font: 11px var(--mono);
   letter-spacing: 1.4px;
   text-transform: uppercase;
   color: #8b7a86;
@@ -60,7 +60,7 @@
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  font: 10px var(--mono);
+  font: 11px var(--mono);
   letter-spacing: .6px;
   color: #7c6a77;
   background: #ffffffa8;

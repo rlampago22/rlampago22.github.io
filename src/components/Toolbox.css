@@ -113,7 +113,7 @@
 }
 
 .toolbox-languages li span:not(.toolbox-dots) {
-  font: 9px var(--mono);
+  font: 10.5px var(--mono);
   letter-spacing: 1px;
   text-transform: uppercase;
   color: #9a7f8d;
@@ -157,7 +157,7 @@
   }
 
   .toolbox-group li {
-    font-size: 11px;
+    font-size: 12px;
     padding: 6px 10px;
   }
 }
