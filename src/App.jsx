@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
 import { AnimatePresence, MotionConfig, motion } from 'motion/react';
-import { ArrowUpRight, ArrowDown, ArrowRight, Github, Instagram, Mail, MessageCircle, Copy, Check, X, Menu, Pause, Play, MapPin, Terminal, Code2, ExternalLink, Sparkles, Plus, Minus } from 'lucide-react';
+import { ArrowUpRight, ArrowDown, ArrowRight, Github, Instagram, Mail, MessageCircle, Copy, Check, X, Menu, Pause, Play, MapPin, Terminal, Code2, ExternalLink, Sparkles, Plus, Minus, Sun, Moon } from 'lucide-react';
 import DecryptedText from './components/DecryptedText';
 import Folder from './components/Folder';
 import InteractiveAvatar from './components/InteractiveAvatar';
@@ -12,6 +13,7 @@ import Journey from './components/Journey';
 import Toolbox from './components/Toolbox';
 import Landings from './components/Landings';
 import Intro, { shouldShowIntro } from './components/Intro';
+import AmbientBackground from './components/AmbientBackground';
 import { projects, papers, email, github, instagram, orcid, lattes } from './data';
 
 const asset = (name) => globalThis.__PORTFOLIO_ASSETS__?.[name] || `${import.meta.env.BASE_URL}assets/${name}`;
@@ -31,7 +33,7 @@ const socials = [
   { label: 'WhatsApp', href: 'https://wa.me/5553999357192', icon: MessageCircle },
 ];
 
-function Logo({ name, ...props }) { return <img src={asset(`${name}.svg`)} alt="" {...props} />; }
+function Logo({ name, ...props }) { return <img src={asset(`${name}.svg`)} alt="" data-logo={name} {...props} />; }
 function SectionLabel({ children }) { return <span className="section-label">{children}</span>; }
 
 function useMediaQuery(queryString) {
@@ -144,6 +146,7 @@ function MiniTerminal() {
 export default function App() {
   const compactFolders = useMediaQuery('(max-width: 600px)');
   const [motionPaused, setMotionPaused] = useState(false);
+  const [theme, setTheme] = useState(() => document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light');
   const [introActive, setIntroActive] = useState(shouldShowIntro);
   const [mobileMenu, setMobileMenu] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
@@ -154,6 +157,17 @@ export default function App() {
   const copyTimeout = useRef(null);
   useEffect(() => () => clearTimeout(copyTimeout.current), []);
   useEffect(() => { document.documentElement.dataset.motion = paused ? 'paused' : 'running'; }, [paused]);
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#141216' : '#f6f5f7');
+  }, [theme]);
+  // Until the visitor picks a theme, the page follows the system setting.
+  useEffect(() => {
+    const query = window.matchMedia('(prefers-color-scheme: dark)');
+    const follow = event => { try { if (localStorage.getItem('portfolio-theme')) return; } catch {} setTheme(event.matches ? 'dark' : 'light'); };
+    query.addEventListener('change', follow);
+    return () => query.removeEventListener('change', follow);
+  }, []);
   // The AI logos around the portrait shy away from the cursor and grow a little as it gets close.
   useEffect(() => {
     const hero = document.querySelector('.hero');
@@ -184,12 +198,24 @@ export default function App() {
   }, [paused]);
   useEffect(() => { try { localStorage.removeItem('portfolio-motion'); } catch {} }, []);
   function toggleMotion() { setMotionPaused(value => !value); }
+  function toggleTheme(event) {
+    const next = theme === 'dark' ? 'light' : 'dark';
+    try { localStorage.setItem('portfolio-theme', next); } catch {}
+    const apply = () => flushSync(() => setTheme(next));
+    if (!document.startViewTransition || paused) { apply(); return; }
+    // The new theme spreads out from the button as a growing circle.
+    const box = event.currentTarget.getBoundingClientRect();
+    const x = box.left + box.width / 2;
+    const y = box.top + box.height / 2;
+    const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+    document.startViewTransition(apply).ready.then(() => document.documentElement.animate({ clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] }, { duration: 700, easing: 'cubic-bezier(.65,0,.35,1)', pseudoElement: '::view-transition-new(root)' })).catch(() => {});
+  }
   async function copyEmail() {
     try { await navigator.clipboard.writeText(email); setCopyStatus('E-mail copiado!'); }
     catch { setCopyStatus(`Copie o endereço: ${email}`); }
     clearTimeout(copyTimeout.current); copyTimeout.current = setTimeout(() => setCopyStatus(''), 5000);
   }
-  return <MotionConfig reducedMotion={paused ? 'always' : 'never'}><AnimatePresence>{introActive && <Intro key="intro" onDone={() => setIntroActive(false)} />}</AnimatePresence><div className="site-shell">
+  return <MotionConfig reducedMotion={paused ? 'always' : 'never'}><AnimatePresence>{introActive && <Intro key="intro" onDone={() => setIntroActive(false)} />}</AnimatePresence><AmbientBackground paused={paused} theme={theme} /><div className="site-shell">
     <a className="skip-link" href="#conteudo">Pular para o conteúdo</a>
     <header className="site-header">
       <a href="#inicio" className="brand" aria-label="Marcus Querol, início"><span className="brand-symbol">m.</span><span>marcus querol<span className="brand-dot">.</span></span></a>
@@ -197,7 +223,7 @@ export default function App() {
         {[['Sobre mim', 'sobre'], ['Projetos', 'projetos'], ['Demo', 'subchefe'], ['Trajetória', 'trajetoria'], ['Interesses', 'interesses'], ['Pesquisa', 'pesquisa']].map(([title, id]) => <a href={`#${id}`} key={id} onClick={() => setMobileMenu(false)}>{title}</a>)}
         <a className="nav-contact" href="#contato" onClick={() => setMobileMenu(false)}>Vamos conversar <ArrowUpRight size={15} /></a>
       </nav>
-      <div className="header-controls"><button className="icon-button motion-toggle" onClick={toggleMotion} aria-label={motionPaused ? 'Ativar animações' : 'Pausar animações'} aria-pressed={motionPaused} title={motionPaused ? 'Ativar animações' : 'Pausar animações'}>{paused ? <Play size={15} /> : <Pause size={15} />}</button><button className="icon-button mobile-menu" onClick={() => setMobileMenu(value => !value)} aria-label={mobileMenu ? 'Fechar menu' : 'Abrir menu'} aria-expanded={mobileMenu}>{mobileMenu ? <X size={21} /> : <Menu size={21} />}</button></div>
+      <div className="header-controls"><button className="icon-button theme-toggle" onClick={toggleTheme} aria-label={theme === 'dark' ? 'Usar tema claro' : 'Usar tema escuro'} title={theme === 'dark' ? 'Usar tema claro' : 'Usar tema escuro'}>{theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}</button><button className="icon-button motion-toggle" onClick={toggleMotion} aria-label={motionPaused ? 'Ativar animações' : 'Pausar animações'} aria-pressed={motionPaused} title={motionPaused ? 'Ativar animações' : 'Pausar animações'}>{paused ? <Play size={15} /> : <Pause size={15} />}</button><button className="icon-button mobile-menu" onClick={() => setMobileMenu(value => !value)} aria-label={mobileMenu ? 'Fechar menu' : 'Abrir menu'} aria-expanded={mobileMenu}>{mobileMenu ? <X size={21} /> : <Menu size={21} />}</button></div>
     </header>
     <main id="conteudo">
       <section id="inicio" className="hero" aria-labelledby="hero-title">

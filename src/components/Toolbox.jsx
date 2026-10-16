@@ -9,7 +9,7 @@ export default function Toolbox({ asset }) {
       <div className="toolbox-groups">{toolGroups.map(group => <article key={group.id} className={`toolbox-group toolbox-group--${group.id}`}>
         <h3>{group.title}</h3>
         {group.note && <p>{group.note}</p>}
-        <ul>{group.items.map(item => <li key={item.name}>{item.logo && <img src={asset(`${item.logo}.svg`)} alt="" width="14" height="14" />}{item.name}</li>)}</ul>
+        <ul>{group.items.map(item => <li key={item.name}>{item.logo && <img src={asset(`${item.logo}.svg`)} alt="" data-logo={item.logo} width="14" height="14" />}{item.name}</li>)}</ul>
       </article>)}</div>
       <aside className="toolbox-languages" aria-labelledby="languages-title">
         <div className="toolbox-languages__head"><Languages size={18} aria-hidden="true" /><h3 id="languages-title">Idiomas</h3></div>
