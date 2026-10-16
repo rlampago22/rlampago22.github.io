@@ -76,6 +76,8 @@ export default function AmbientBackground({ paused, theme }) {
     let lastScroll = window.scrollY;
 
     const compact = () => width < 700;
+    // globalAlpha silently ignores values above 1, so they are clamped.
+    const setAlpha = value => { context.globalAlpha = Math.min(1, value); };
     const reach = () => (compact() ? 120 : 170);
 
     function measure(fragment) {
@@ -223,7 +225,7 @@ export default function AmbientBackground({ paused, theme }) {
           line.tokens.forEach(token => {
             if (token.column >= shown) return;
             context.fillStyle = colors[token.kind];
-            context.globalAlpha = alpha * (token.kind === 'comment' ? 0.8 : 1);
+            setAlpha(alpha * (token.kind === 'comment' ? 0.8 : 1));
             context.fillText(token.text.slice(0, shown - token.column), fragment.x + token.column * fragment.charWidth, y);
           });
           if (remaining <= line.length) cursor = { x: fragment.x + shown * fragment.charWidth, y };
@@ -235,7 +237,7 @@ export default function AmbientBackground({ paused, theme }) {
         }
         if (cursor && Math.floor(clock * 2.2) % 2 === 0) {
           context.fillStyle = colors.keyword;
-          context.globalAlpha = alpha;
+          setAlpha(alpha);
           context.fillRect(cursor.x + 1, cursor.y, fragment.charWidth * 0.55, fragment.size * 1.1);
         }
       });
@@ -251,7 +253,7 @@ export default function AmbientBackground({ paused, theme }) {
           const distance = Math.hypot(neurons[a].x - neurons[b].x, neurons[a].y - neurons[b].y);
           if (distance >= limit) continue;
           const via = control(a, b);
-          context.globalAlpha = (1 - distance / limit) ** 1.3 * 0.4 * strength;
+          setAlpha((1 - distance / limit) ** 1.3 * 0.4 * strength);
           context.beginPath();
           context.moveTo(neurons[a].x, neurons[a].y);
           context.quadraticCurveTo(via.x, via.y, neurons[b].x, neurons[b].y);
@@ -264,7 +266,7 @@ export default function AmbientBackground({ paused, theme }) {
           const distance = Math.hypot(neuron.x - pointer.x, neuron.y - pointer.y);
           if (distance >= 200) return;
           const mx = (neuron.x + pointer.x) / 2, my = (neuron.y + pointer.y) / 2;
-          context.globalAlpha = (1 - distance / 200) * 0.55 * strength;
+          setAlpha((1 - distance / 200) * 0.55 * strength);
           context.beginPath();
           context.moveTo(neuron.x, neuron.y);
           context.quadraticCurveTo(mx + Math.sin(clock * 2 + neuron.seed) * 14, my + Math.cos(clock * 2 + neuron.seed) * 14, pointer.x, pointer.y);
@@ -276,7 +278,7 @@ export default function AmbientBackground({ paused, theme }) {
       context.lineWidth = 0.8;
       neurons.forEach(neuron => {
         context.strokeStyle = neuron.energy > 0.3 ? colors.pulse : colors.node;
-        context.globalAlpha = (0.4 + neuron.energy * 0.5) * strength;
+        setAlpha((0.4 + neuron.energy * 0.5) * strength);
         neuron.dendrites.forEach(branch => {
           const sway = Math.sin(clock * 1.3 + branch.phase) * 0.18;
           const angle = branch.angle + sway, bend = branch.bend + sway;
@@ -304,46 +306,47 @@ export default function AmbientBackground({ paused, theme }) {
           const point = along(from, via, to, Math.max(0, pulse.t - 0.3 + (step / 10) * 0.3));
           if (step === 0) context.moveTo(point.x, point.y); else context.lineTo(point.x, point.y);
         }
-        context.globalAlpha = 0.6 * strength;
+        setAlpha(0.6 * strength);
         context.stroke();
         const head = along(from, via, to, pulse.t);
         context.fillStyle = colors.pulse;
-        context.globalAlpha = 0.22 * strength;
+        setAlpha(0.22 * strength);
         context.beginPath(); context.arc(head.x, head.y, 8, 0, Math.PI * 2); context.fill();
-        context.globalAlpha = 0.95 * strength;
+        setAlpha(0.95 * strength);
         context.beginPath(); context.arc(head.x, head.y, 2.2, 0, Math.PI * 2); context.fill();
       });
 
       context.fillStyle = colors.pulse;
       sparks.forEach(spark => {
-        context.globalAlpha = spark.life * 0.7 * strength;
+        setAlpha(spark.life * 0.7 * strength);
         context.beginPath(); context.arc(spark.x, spark.y, 1.3, 0, Math.PI * 2); context.fill();
       });
 
       neurons.forEach(neuron => {
         context.fillStyle = colors.pulse;
-        context.globalAlpha = (0.08 + neuron.energy * 0.28) * strength;
+        setAlpha((0.08 + neuron.energy * 0.28) * strength);
         context.beginPath(); context.arc(neuron.x, neuron.y, neuron.r * 2.6 + neuron.energy * 10, 0, Math.PI * 2); context.fill();
         context.fillStyle = neuron.energy > 0.3 ? colors.pulse : colors.node;
-        context.globalAlpha = (0.7 + neuron.energy * 0.3) * strength;
+        setAlpha((0.7 + neuron.energy * 0.3) * strength);
         context.beginPath(); context.arc(neuron.x, neuron.y, neuron.r + neuron.energy * 1.4, 0, Math.PI * 2); context.fill();
       });
     }
 
     function draw() {
       context.clearRect(0, 0, width, height);
-      const strength = dark ? 1 : 0.8;
+      // On the light page dark ink needs a bit more opacity to read as strongly as light ink on the dark page.
+      const strength = dark ? 1 : 1.25;
       if (pointer.active) {
         const glow = context.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, 320);
         glow.addColorStop(0, colors.glow);
         glow.addColorStop(1, 'transparent');
-        context.globalAlpha = dark ? 0.16 : 0.1;
+        setAlpha(dark ? 0.16 : 0.1);
         context.fillStyle = glow;
         context.fillRect(pointer.x - 320, pointer.y - 320, 640, 640);
       }
       drawCode(strength);
       drawNeurons(strength);
-      context.globalAlpha = 1;
+      setAlpha(1);
     }
 
     function loop(time) {
