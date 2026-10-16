@@ -48,7 +48,7 @@ function readColors() {
   const style = getComputedStyle(document.documentElement);
   const read = (name, fallback) => style.getPropertyValue(name).trim() || fallback;
   return {
-    node: read('--ambient-node', '#7f3048'), pulse: read('--ambient-pulse', '#b1667f'), glow: read('--ambient-glow', '#c99bb5'),
+    node: read('--ambient-node', '#7f3048'), pulse: read('--ambient-pulse', '#b1667f'),
     text: read('--ambient-text', '#5d5864'), keyword: read('--ambient-keyword', '#7f3048'), string: read('--ambient-string', '#4f7d63'),
     fn: read('--ambient-fn', '#a0632e'), comment: read('--ambient-comment', '#9a94a0')
   };
@@ -336,14 +336,6 @@ export default function AmbientBackground({ paused, theme }) {
       context.clearRect(0, 0, width, height);
       // Light ink on the dark page stands out more than dark ink on the light one, so it is toned down to keep text readable.
       const strength = dark ? 0.7 : 1.25;
-      if (pointer.active) {
-        const glow = context.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, 320);
-        glow.addColorStop(0, colors.glow);
-        glow.addColorStop(1, 'transparent');
-        setAlpha(dark ? 0.16 : 0.1);
-        context.fillStyle = glow;
-        context.fillRect(pointer.x - 320, pointer.y - 320, 640, 640);
-      }
       drawCode(strength);
       drawNeurons(strength);
       setAlpha(1);
